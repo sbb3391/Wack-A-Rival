@@ -26,11 +26,12 @@ function translateMascotUp(mascot, div) {
   mascot.style.transform = "translateY(-105px)";
 
   mascot.addEventListener("transitionend", function() {
-    let randomTime = randomInteger(300, 900)
+    let randomTime = randomInteger(400, 900)
 
     setTimeout(function() {
       div.remove();
-      peep(mascot);
+      const randomMascot = mascotImages[Math.floor(Math.random()*mascotImages.length)].cloneNode(true);
+      peep(randomMascot);
     }, randomTime)
   })
 }
@@ -58,16 +59,6 @@ function assignMascotTopAndBottom() {
 }
 
 function peep(mascot) {
-  appendMascotandMascotDiv(mascot);
-  // mascot.addEventListener("load", function() {
-  //   mascot.addEventListener("click", function() {
-  //     updateScoreboard()
-  //   })
-  //   translateMascotUp(mascot, mascotDiv);
-  // })
-}
-
-function appendMascotandMascotDiv(mascot) {
   mascotDiv = document.createElement("div")
   mascotDiv.innerHTML = `
     <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative z-10">
@@ -80,13 +71,14 @@ function appendMascotandMascotDiv(mascot) {
   document.querySelector("#mascots-div").appendChild(mascotDiv)
   mascot.className = "mascot absolute bottom-10 z-0 left-10 transition duration-200"
   mascotDiv.appendChild(mascot)
-
-  mascot.addEventListener("load", function() {
+  
+  mascot.addEventListener("load", () => {
     mascot.addEventListener("click", function() {
-      updateScoreboard()
+      updateScoreboard();
     })
     translateMascotUp(mascot, mascotDiv);
   })
+   
 }
 
 function updateScoreboard() {

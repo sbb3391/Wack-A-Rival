@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wack-A-Mascot</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div id="main-div" class="w-screen h-screen relative">
+      <div id="mascot-selection" class="flex flex-col place-content-center relative h-2/5 w-1/4 mx-auto text-center pt-3">
+
+      </div>
+      <div id="game-screen" class="w-screen h-screen relative hidden">
+        <div id="scoreboard" class="h-1/6 relative">
+          <h1 class="text-center pt-7">Current Rivals Wacked: <span></span> </h1>
+        </div>
+        <div id="mascots-div" class="mx-auto w-10/12 h-4/5 border-2 border-black rounded-md">
+  
+        </div>
+      </div>  
+
+    </div>
+
+
+    <template id="mascot-images">
+      <img src="wack-a-mole-images/aubie-crop.png" width="110" class="mascot absolute" data-mascot-id="2">
+      <img src="wack-a-mole-images/bevo-crop.png" width="130" class="mascot absolute" data-mascot-id="3">
+      <img src="wack-a-mole-images/big-al-crop.png" width="90" class="mascot absolute" data-mascot-id="1">
+      <img src="wack-a-mole-images/mike-crop.png" width="100" class="mascot absolute" data-mascot-id="4">
+      <img src="wack-a-mole-images/msu-crop.png" width="100" class="mascot absolute" data-mascot-id="5">
+      <img src="wack-a-mole-images/porkchop-crop.png" width="100" class="mascot absolute" data-mascot-id="6">
+      <img src="wack-a-mole-images/reb-crop.png" width="100" class="mascot absolute" data-mascot-id="7">
+      <img src="wack-a-mole-images/revillie-crop.png" width="100" class="mascot absolute" data-mascot-id="8">
+    </template>
+
+    <script src="index.js"></script>
+    
+  
+  </body>
+
+
+  
+</html>

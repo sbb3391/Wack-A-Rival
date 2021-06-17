@@ -197,6 +197,8 @@ function addTeams(json) {
   json.data.forEach( teamData => {
 
     let team = {};
+
+    team["id"] = teamData.id,
     team["school"] = teamData.attributes.school,
     team["nickname"] = teamData.attributes.nickname,
     team["shorthand_name"] = teamData.attributes.shorthand_name,
@@ -210,21 +212,23 @@ function addTeams(json) {
     Team.all.push(newTeam)
   })
 
-  json.data.forEach( mascotData => {
+  json.included.forEach( mascotData => {
     let mascot = {}
 
-    mascot["name"] = json.included.attributes.name,
-    mascot["origin_description"] = json.included.attributes.origin_description,
-    mascot["cartoon_image_location"] = json.included.attributes.cartoon_image_location,
-    mascot["real_life_image_location"] = json.included.attributes.real_life_image_location,
-    mascot["team_id"] = json.included.attributes.real_life_image_location
+    mascot["id"] = mascotData.id,
+    mascot["name"] = mascotData.attributes.name,
+    mascot["origin_description"] = mascotData.attributes.origin_description,
+    mascot["cartoon_image_location"] = mascotData.attributes.cartoon_image_location,
+    mascot["real_life_image_location"] = mascotData.attributes.real_life_image_location,
+    mascot["team_id"] = mascotData.attributes.team_id
 
     let newMascot = new Mascot(mascot)
 
     Mascot.all.push(newMascot)
-
-    Team.all.find( element => {return element.id === newMascot.id}).mascot = newMascot
+    Team.all.find( element => {return element.id == newMascot["team_id"]}).mascot = newMascot
   })
+  debugger;
+
 }
 
 

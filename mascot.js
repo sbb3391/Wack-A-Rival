@@ -7,4 +7,6 @@ class Mascot {
     this.real_life_image_location = mascot["real_life_image_location"],
     this.team_id = mascot["team_id"]
   }
+
+  static all = [];
 }

@@ -26,12 +26,13 @@ function translateMascotUp(mascot, div) {
   mascot.style.transform = "translateY(-105px)";
 
   mascot.addEventListener("transitionend", function() {
-    let randomTime = randomInteger(400, 900)
+    let randomTime = randomInteger(500, 600)
+    console.log("random time", randomTime)
 
     setTimeout(function() {
       div.remove();
-      const randomMascot = mascotImages[Math.floor(Math.random()*mascotImages.length)].cloneNode(true);
-      peep(randomMascot);
+      const newMascot = createMascotCopy(mascot);
+      peep(newMascot)
     }, randomTime)
   })
 }
@@ -121,7 +122,6 @@ function startCountDownClock(numberDiv) {
   let countDownTimer = numberDiv.innerText
 
   const countDownVar = setInterval(() => {
-    console.log(countDownTimer)
 
     countDownTimer -- 
     numberDiv.style.transform = "translateX(35px)"
@@ -154,15 +154,14 @@ function createCountDownClockElement(initialValue) {
 }
 
 function startGameClock(numberDiv, gameLength) {
-  const peepMascot = document.querySelector("img.mascot-image").cloneNode(true);
-  peepMascot.style.width ="90px"
 
-  peep(peepMascot);
+  const MascotToCopy = document.querySelector("img.mascot-image")
+
+  peep(createMascotCopy(MascotToCopy));
 
   let gameClock = numberDiv.innerText
 
   const gameClockVar = setInterval(() => {
-    console.log(gameClock)
   
     gameClock -- 
 
@@ -280,7 +279,7 @@ function showPreviousMascot(e) {
 function createMascotElement(mascotObject) {
   const image = document.createElement("img");
   image.src = mascotObject.attributes.cartoon_image_location
-  image.setAttribute("width", "120px")
+  image.setAttribute("width", "110px")
   image.setAttribute("data-mascot-id", mascotObject.id)
   image.className = "mascot-image text-center"
 
@@ -288,13 +287,14 @@ function createMascotElement(mascotObject) {
 }
 
 function transitionMascotAndListenForClick() {
-  document.querySelector("div#current-mascot").addEventListener("mouseenter", e => {
-    e.target.style.transform = "translateY(-20px)"
+  const mascotDiv = document.querySelector("div#current-mascot")
+  mascotDiv.children[0].addEventListener("mouseenter", e => {
+    mascotDiv.style.transform = "translateY(-20px)"
   })
-  document.querySelector("div#current-mascot").addEventListener("mouseleave", e => {
-    e.target.style.transform = ""
+  mascotDiv.children[0].addEventListener("mouseleave", e => {
+    mascotDiv.style.transform = ""
   })
-  document.querySelector("div#current-mascot").addEventListener("click", e => {
+  mascotDiv.addEventListener("click", e => {
     showTeamAndMascotDetails(e)
   })
 }
@@ -322,7 +322,7 @@ function showTeamAndMascotDetails(e) {
     </div>
   `
 
-  document.querySelector("div#mascot-selection").insertAdjacentElement("afterend", teamDetailDiv)
+  document.querySelector("div#top-view").insertAdjacentElement("afterend", teamDetailDiv)
 
   teamDetailDiv.querySelector("button").addEventListener("click", () => {
     event.preventDefault();
@@ -365,6 +365,17 @@ function showTeamAndMascotDetails(e) {
     if (teamDetail) {
       teamDetail.remove();
     }
+  }
+
+  function createMascotCopy(mascot) {
+    const copySrc = mascot.src
+    const copyWidth = "90px"
+    const copy = document.createElement("img")
+
+    copy.style.width = copyWidth;
+    copy.src = copySrc;
+
+    return copy
   }
 
   function hideGameScreen() {

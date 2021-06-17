@@ -193,6 +193,41 @@ function mascotScroll() {
   .then(json => displayMascotCarosel(json))
 }
 
+function addTeams(json) {
+  json.data.forEach( teamData => {
+
+    let team = {};
+    team["school"] = teamData.attributes.school,
+    team["nickname"] = teamData.attributes.nickname,
+    team["shorthand_name"] = teamData.attributes.shorthand_name,
+    team["real_life_record_vs_arkansas"] = teamData.attributes.real_life_record_vs_arkansas,
+    team["wins_in_game"] = teamData.attributes.wins_in_game,
+    team["losses_in_game"] = teamData.attributes.losses_in_game,
+    team["description"] = teamData.attributes.description
+
+    let newTeam = new Team(team)
+
+    Team.all.push(newTeam)
+  })
+
+  json.data.forEach( mascotData => {
+    let mascot = {}
+
+    mascot["name"] = json.included.attributes.name,
+    mascot["origin_description"] = json.included.attributes.origin_description,
+    mascot["cartoon_image_location"] = json.included.attributes.cartoon_image_location,
+    mascot["real_life_image_location"] = json.included.attributes.real_life_image_location,
+    mascot["team_id"] = json.included.attributes.real_life_image_location
+
+    let newMascot = new Mascot(mascot)
+
+    Mascot.all.push(newMascot)
+
+    Team.all.find( element => {return element.id === newMascot.id}).mascot = newMascot
+  })
+}
+
+
 function displayMascotCarosel(json) {
   mascotObjects = json.included
   teamObjects = json.data

@@ -38,7 +38,7 @@ class Mascot {
     <a id="next" class="cursor-pointer absolute top-1/2 p-4 w-auto right-0 text-2xl">&#10095;</a>
     `
   
-    const currentMascot = Mascot.all[0];
+    let currentMascot = Mascot.all[0];
     const currentMascotImage = currentMascot.createMascotElement();
 
     const schoolNameDiv = document.createElement("div");
@@ -69,26 +69,28 @@ class Mascot {
   showNextMascot() {
     removeTeamDetails();
     hideGameScreen();
-    const currentMascot = document.querySelector(`img[src='${this.cartoon_image_location}']`);
-    debugger;
-    const mascotId = parseInt(currentMascot.dataset.mascotId)
   
-    if (mascotId === Mascot.all.length) {
+    if (Mascot.all.indexOf(this) == Mascot.all.length - 1) {
+      const firstMascotImage = Mascot.all[0].createMascotElement();
       document.querySelector("img.mascot-image").remove();
-      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", Mascot.all[0])
+      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", firstMascotImage)
       Mascot.all[0].transitionMascotAndListenForClick() 
       document.querySelector("div#image-counter").innerText = `1/${Mascot.all.length}`
       document.querySelector("div#mascot-description").innerText = `${Mascot.all[0].name}`
+      const next = document.querySelector("a#next")
+      next.addEventListener("click", () => { Mascot.all[0].showNextMascot() })
     } else {
-      const newMascot = Mascot.all[parseInt(this.id)]
+      const newMascot = Mascot.all[Mascot.all.indexOf(this) + 1]
       const newMascotImg = newMascot.createMascotElement();
       // remove current mascot image
       document.querySelector("img.mascot-image").remove();
       // add next mascot image to carosel
       document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", newMascotImg) 
       newMascot.transitionMascotAndListenForClick();
-      document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot)}/${Mascot.all.length}`
+      document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot) + 1}/${Mascot.all.length}`
       document.querySelector("div#mascot-description").innerText = `${Mascot.all[Mascot.all.indexOf(newMascot)].name}`
+      const next = document.querySelector("a#next")
+      next.addEventListener("click", () => { Mascot.all[parseInt(Mascot.all.indexOf(this) + 1)].showNextMascot() })
     }
   }
   
@@ -122,7 +124,7 @@ class Mascot {
 
   transitionMascotAndListenForClick() {
     const mascotDiv = document.querySelector("div#current-mascot")
-    const teamOfThisMascot = Team.all.find( element => { return element.id === this.team_id} )
+    const teamOfThisMascot = Team.all.find( element => { return element.id == this.team_id} )
     mascotDiv.children[0].addEventListener("mouseenter", e => {
       mascotDiv.style.transform = "translateY(-20px)"
     })

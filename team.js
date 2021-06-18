@@ -49,7 +49,7 @@ class Team {
     removeTeamDetails();
   
     const mascotId = document.querySelector(".mascot-image").dataset.mascotId
-    const mascotObject = mascotObjects.find( element => { return this.id === mascotId })
+    const mascotObject = Mascot.all.find( element => { return this.id == mascotId })
     
     const teamDetailDiv = document.createElement("div")
     teamDetailDiv.id = "team-detail"
@@ -57,7 +57,7 @@ class Team {
     teamDetailDiv.innerHTML = `
       <div class="flex flex-col justify-center space-y-2 py-3">
         <h1 class="text-center text-3xl">${this.school}</h1>
-        <h3 class="text-center text-xl">${this.shorthand_name} ${this.attributes.nickname}</h3>
+        <h3 class="text-center text-xl">${this.shorthandName} ${this.nickname}</h3>
         <div class="self-center">
           <button class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.nickname}</button>
         </div>

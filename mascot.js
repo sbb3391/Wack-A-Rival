@@ -8,6 +8,21 @@ class Mascot {
     this.team_id = mascot["team_id"]
   }
 
+  static addMascot(mascotData) {
+    let mascot = {};
+    mascot["id"] = mascotData.id,
+    mascot["name"] = mascotData.attributes.name,
+    mascot["origin_description"] = mascotData.attributes.origin_description,
+    mascot["cartoon_image_location"] = mascotData.attributes.cartoon_image_location,
+    mascot["real_life_image_location"] = mascotData.attributes.real_life_image_location,
+    mascot["team_id"] = mascotData.attributes.team_id
+  
+    let newMascot = new Mascot(mascot)
+  
+    Mascot.all.push(newMascot)
+    Team.all.find( element => {return element.id == newMascot["team_id"]}).mascot = newMascot
+  }
+
   static all = [];
 
   static displayMascotCarosel() {
@@ -25,7 +40,7 @@ class Mascot {
   
     const currentMascot = Mascot.all[0];
     const currentMascotImage = currentMascot.createMascotElement();
-  
+
     const schoolNameDiv = document.createElement("div");
     schoolNameDiv.id = "mascot-description"
     schoolNameDiv.innerText = `${currentMascot.name}`
@@ -34,7 +49,7 @@ class Mascot {
     MascotSelectionDiv.insertAdjacentElement("afterbegin", schoolNameDiv);
   
     document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", currentMascotImage)
-    currentMascotImage.transitionMascotAndListenForClick();
+    currentMascot.transitionMascotAndListenForClick();
 
     document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(currentMascot) + 1}/${Mascot.all.length}`
   
@@ -54,7 +69,8 @@ class Mascot {
   showNextMascot() {
     removeTeamDetails();
     hideGameScreen();
-    const currentMascot = document.querySelector(`img[src=${this.cartoon_image_location}]`);
+    const currentMascot = document.querySelector(`img[src='${this.cartoon_image_location}']`);
+    debugger;
     const mascotId = parseInt(currentMascot.dataset.mascotId)
   
     if (mascotId === Mascot.all.length) {
@@ -64,15 +80,15 @@ class Mascot {
       document.querySelector("div#image-counter").innerText = `1/${Mascot.all.length}`
       document.querySelector("div#mascot-description").innerText = `${Mascot.all[0].name}`
     } else {
-      const newMascot = Mascot.all[parseInt(this.id) + 1]
+      const newMascot = Mascot.all[parseInt(this.id)]
       const newMascotImg = newMascot.createMascotElement();
       // remove current mascot image
       document.querySelector("img.mascot-image").remove();
       // add next mascot image to carosel
       document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", newMascotImg) 
       newMascot.transitionMascotAndListenForClick();
-      document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot) + 1}/${Mascot.all.length}`
-      document.querySelector("div#mascot-description").innerText = `${Mascot.all[Mascot.all.indexOf(newMascot) + 1].name}`
+      document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot)}/${Mascot.all.length}`
+      document.querySelector("div#mascot-description").innerText = `${Mascot.all[Mascot.all.indexOf(newMascot)].name}`
     }
   }
   
@@ -95,9 +111,10 @@ class Mascot {
   
   createMascotElement() {
     const image = document.createElement("img");
-    image.src = this["cartoonImageLocation"]
+
+    image.src = this.cartoon_image_location
     image.setAttribute("width", "110px")
-    image.setAttribute("data-mascot-id", this["id"])
+    image.setAttribute("data-mascot-id", this.id)
     image.className = "mascot-image text-center"
   
     return image
@@ -105,6 +122,7 @@ class Mascot {
 
   transitionMascotAndListenForClick() {
     const mascotDiv = document.querySelector("div#current-mascot")
+    const teamOfThisMascot = Team.all.find( element => { return element.id === this.team_id} )
     mascotDiv.children[0].addEventListener("mouseenter", e => {
       mascotDiv.style.transform = "translateY(-20px)"
     })
@@ -112,7 +130,7 @@ class Mascot {
       mascotDiv.style.transform = ""
     })
     mascotDiv.addEventListener("click", e => {
-      showTeamAndMascotDetails(e)
+      teamOfThisMascot.showTeamAndMascotDetails()
     })
   }
   

@@ -227,8 +227,6 @@ function addTeams(json) {
     Mascot.all.push(newMascot)
     Team.all.find( element => {return element.id == newMascot["team_id"]}).mascot = newMascot
   })
-  debugger;
-
 }
 
 

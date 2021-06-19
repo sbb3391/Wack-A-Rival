@@ -1,5 +1,5 @@
 const mascotImages = document.querySelector("template#mascot-images").content.children;
-let previousMascotBottom, previousMascotLeft
+let previousMascotBottom, previousMascotLeft, previousMascotDiv
 let scoreboard = 0;
 
 function getRandomMascot() {
@@ -18,26 +18,53 @@ function getRandomMascot() {
   mascotDiv.appendChild(randomMascot)
 }
 
-function randomInteger(min, max) {
+function randomHoleInteger() {
+  const max = document.querySelectorAll(".mascot-div").length;
+  return Math.floor(Math.random() * max);
+}
+
+function randomInteger(max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function translateMascotUp(mascot, div) {
-  mascot.style.transform = "translateY(-105px)";
+function getRandomMascotDiv() {
+  let previousMascotDivIndex = Array.from(document.querySelectorAll(".mascot-div")).indexOf(previousMascotDiv)
+  previousMascotDivIndex = -1 ? previousMascotDivIndex = undefined : nil
+  let getRandomMascotDiv;
 
-  mascot.addEventListener("transitionend", function() {
+  while (getRandomMascotDiv == previousMascotDiv) {
+    getRandomMascotDiv = document.querySelectorAll(".mascot-div")[randomHoleInteger()]
+  }
+
+  return getRandomMascotDiv
+}
+
+function translateMascotUp(mascot, div) {
+  if (allChildrenComplete(div)) {
+    mascot.style.transform = "translateY(-105px)";
+
     let randomTime = randomInteger(500, 600)
     console.log("random time", randomTime)
 
     setTimeout(function() {
       div.remove();
-      const newMascot = createMascotCopy(mascot);
-      peep(newMascot)
+      peepMascot();
     }, randomTime)
-  })
+  } else {
+    mascot.addEventListener("load", () => {
+      mascot.style.transform = "translateY(-105px)";
+
+      let randomTime = randomInteger(500, 600)
+      console.log("random time", randomTime)
+  
+      setTimeout(function() {
+        div.querySelector(".mascot-image").remove();
+      }, randomTime)
+    })
+  }
 }
 
-function assignMascotTopAndBottom() {
+function assignMascotTopAndBottom(mascotDiv) {
   // check if mascot bottom value is too close to the previous value. We don't want them popping up right next to each other
   let mascotBottom = randomInteger(0, 40)
 
@@ -57,29 +84,8 @@ function assignMascotTopAndBottom() {
 
   mascotDiv.style.left = mascotLeft + "%";
   previousMascotLeft = mascotLeft
-}
 
-function peep(mascot) {
-  mascotDiv = document.createElement("div")
-  mascotDiv.innerHTML = `
-    <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative z-10">
-  `
-
-  assignMascotTopAndBottom();
-
-  mascotDiv.className = `absolute`
-
-  document.querySelector("#mascots-div").appendChild(mascotDiv)
-  mascot.className = "mascot absolute bottom-10 z-0 left-10 transition duration-200"
-  mascotDiv.appendChild(mascot)
-  
-  mascot.addEventListener("load", () => {
-    mascot.addEventListener("click", function() {
-      updateScoreboard();
-    })
-    translateMascotUp(mascot, mascotDiv);
-  })
-   
+  return mascotDiv;
 }
 
 function updateScoreboard() {
@@ -92,7 +98,8 @@ function displayScore() {
   score.innerText = scoreboard;
 }
 
-function countDownToStartGame() {
+function countDownToStartGame(mascot) {
+  gameMascot = mascot;
   const scoreboard = document.querySelector("div#scoreboard");
   const gameScreen = document.querySelector("div#game-screen");
   gameScreen.classList.remove("hidden")
@@ -110,15 +117,16 @@ function countDownToStartGame() {
   numberDiv.addEventListener("load", startCountDownClock(numberDiv))
 }
 
-function startGame(gameLength) {
-  document.querySelector("div#scoreboard").insertAdjacentElement("beforeEnd", createCountDownClockElement(gameLength));
+function startGame(mascotsToBeWacked = 20) {
+  let inGameMascotCounter = 0;
 
-  const gameClock = document.querySelector("div#countdown-clock")
-  const numberDiv = gameClock.querySelector("div#number-div");
-  startGameClock(numberDiv, gameLength);
+  for (let i = inGameMascotCounter; i < mascotsToBeWacked; i++ ) {
+    gameMascot.peepMascot();
+  }
 }
 
 function startCountDownClock(numberDiv) {
+
   let countDownTimer = numberDiv.innerText
 
   const countDownVar = setInterval(() => {
@@ -135,7 +143,7 @@ function startCountDownClock(numberDiv) {
     if (parseInt(countDownTimer) === 0) {
       clearInterval(countDownVar);
       document.querySelector("div#countdown-clock").remove()
-      startGame(10);
+      startGame();
     } 
   }, 1000)
 }
@@ -151,32 +159,6 @@ function createCountDownClockElement(initialValue) {
     </div>
   `
   return countDownClock;
-}
-
-function startGameClock(numberDiv, gameLength) {
-
-  const MascotToCopy = document.querySelector("img.mascot-image")
-
-  peep(createMascotCopy(MascotToCopy));
-
-  let gameClock = numberDiv.innerText
-
-  const gameClockVar = setInterval(() => {
-  
-    gameClock -- 
-
-    numberDiv.style.transform = "translateX(35px)"
-
-    numberDiv.addEventListener("transitionend", function() {
-      numberDiv.innerText = gameClock
-      numberDiv.style.transform = ""
-    })
-
-    if (gameClock == 0) {
-      document.querySelector("div#countdown-clock").remove()
-      clearInterval(gameClockVar);
-    } 
-  }, 1000)
 }
 
 function stopPeep() {
@@ -238,6 +220,14 @@ window.addEventListener("DOMContentLoaded", () => {
   function hideGameScreen() {
     document.querySelector("div#game-screen").classList.add("hidden");
   }
+
+  function allChildrenComplete(div) {
+    
+    Array.from(div.children).every( element => {
+      return element.complete;
+    })
+  }
+
 
 
 

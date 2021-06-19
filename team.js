@@ -70,7 +70,8 @@ class Team {
   
     teamDetailDiv.querySelector("button").addEventListener("click", () => {
       event.preventDefault();
-      countDownToStartGame();
+      countDownToStartGame(this.mascot);
+  
     })
   }
     

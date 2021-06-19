@@ -135,5 +135,20 @@ class Mascot {
       teamOfThisMascot.showTeamAndMascotDetails()
     })
   }
+
+  peepMascot() {
+    const mascotDivs = document.querySelectorAll(".mascot-div")
+    const randomMascotDiv = getRandomMascotDiv();
+    
+    const mascotImage = gameMascot.createMascotElement();
+    mascotImage.className += " absolute bottom-0 transition duration-200 left-4"
+
+    randomMascotDiv.appendChild(mascotImage)
+  
+    mascotImage.addEventListener("click", function() {
+      updateScoreboard();
+    })
+    translateMascotUp(mascotImage, randomMascotDiv);  
+  }
   
 }

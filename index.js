@@ -30,11 +30,13 @@ function randomInteger(max, min) {
 function getRandomMascotDiv() {
   let previousMascotDivIndex = Array.from(document.querySelectorAll(".mascot-div")).indexOf(previousMascotDiv)
   previousMascotDivIndex = -1 ? previousMascotDivIndex = undefined : nil
-  let getRandomMascotDiv;
+  let getRandomMascotDiv = document.querySelectorAll(".mascot-div")[randomHoleInteger()] 
 
-  while (getRandomMascotDiv == previousMascotDiv) {
-    getRandomMascotDiv = document.querySelectorAll(".mascot-div")[randomHoleInteger()]
+  while (getRandomMascotDiv === previousMascotDiv) {
+    getRandomMascotDiv = document.querySelectorAll(".mascot-div")[randomHoleInteger()] 
   }
+
+  previousMascotDiv = getRandomMascotDiv;
 
   return getRandomMascotDiv
 }
@@ -118,11 +120,13 @@ function countDownToStartGame(mascot) {
 }
 
 function startGame(mascotsToBeWacked = 20) {
-  let inGameMascotCounter = 0;
+  inGameMascotCounter = 0;
 
-  for (let i = inGameMascotCounter; i < mascotsToBeWacked; i++ ) {
+  for (inGameMascotCounter; inGameMascotCounter < mascotsToBeWacked; inGameMascotCounter++) {
     gameMascot.peepMascot();
   }
+
+  alert("Game Over!");
 }
 
 function startCountDownClock(numberDiv) {

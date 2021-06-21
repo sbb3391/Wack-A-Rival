@@ -10,6 +10,7 @@ class Team {
     this.lossesInGame = team["losses_in_game"],
     this.description = team["description"],
     this.mascot = team["mascot"]
+    this.wackA = team["wack_a"]
   }
 
   static getAllTeams() {
@@ -32,7 +33,8 @@ class Team {
       team["real_life_record_vs_arkansas"] = teamData.attributes.real_life_record_vs_arkansas,
       team["wins_in_game"] = teamData.attributes.wins_in_game,
       team["losses_in_game"] = teamData.attributes.losses_in_game,
-      team["description"] = teamData.attributes.description
+      team["description"] = teamData.attributes.description,
+      team["wack_a"] = teamData.attributes.wack_a
   
       let newTeam = new Team(team)
   
@@ -59,7 +61,7 @@ class Team {
         <h1 class="text-center text-3xl">${this.school}</h1>
         <h3 class="text-center text-xl">${this.shorthandName} ${this.nickname}</h3>
         <div class="self-center">
-          <button class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.nickname}</button>
+          <button class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.wackA}</button>
         </div>
       </div>
       <div>

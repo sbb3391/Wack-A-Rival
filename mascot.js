@@ -137,61 +137,40 @@ class Mascot {
   }
 
   peepMascot() {
-    const peepPromise = new Promise(function(resolve, reject) {
-      const mascotDivs = document.querySelectorAll(".mascot-div")
-      const randomMascotDiv = getRandomMascotDiv();
-      
-      const mascotImage = gameMascot.createMascotElement();
-      mascotImage.className += " absolute bottom-0 transition duration-200 left-10"
-
-      randomMascotDiv.appendChild(mascotImage)
+    const mascotDivs = document.querySelectorAll(".mascot-div")
+    const randomMascotDiv = getRandomMascotDiv();
     
-      mascotImage.addEventListener("load", () => {
-        mascotImage.addEventListener("click", function() {
-          updateScoreboard();
-        })
-        mascotImage.addEventListener("transitionend", resolve) 
-        
+    const mascotImage = gameMascot.createMascotElement();
+    mascotImage.className += " absolute bottom-0 transition duration-200 left-10"
+
+    randomMascotDiv.appendChild(mascotImage)
+  
+    mascotImage.addEventListener("load", () => {
+      mascotImage.addEventListener("click", function() {
+        updateScoreboard();
+      })
+
+      if (allChildrenComplete(randomMascotDiv)) {
         mascotImage.style.transform = "translateY(-105px)";
-      })
-    })
-
-    peepPromise
-    .then(image => {
-      const removeImagePromise = new Promise((resolve, reject) => {
-        const randomMascotImage = image.target
-
-        let randomTime = randomInteger(900, 1000);
-
+      
+        let randomTime = randomInteger(900, 1200)
+        console.log("random time", randomTime)
+      
         setTimeout(function() {
-          randomMascotImage.remove();
-          resolve();
+          mascotImage.remove();
+          gameMascot.peepMascot();
         }, randomTime)
-      })
+      } else {
+        mascotImage.style.transform = "translateY(-105px)";
+    
+        let randomTime = randomInteger(900, 1200)
+        console.log("random time", randomTime)
+    
+        setTimeout(function() {
+          mascotImage.remove();
+          gameMascot.peepMascot();
+        }, randomTime)
+      }
     })
   }
 }
-
-
-// if (allChildrenComplete(div)) {
-//   mascot.style.transform = "translateY(-105px)";
-
-//   let randomTime = randomInteger(500, 600)
-//   console.log("random time", randomTime)
-
-//   setTimeout(function() {
-//     div.remove();
-//     peepMascot();
-//   }, randomTime)
-// } else {
-//   mascot.addEventListener("load", () => {
-//     mascot.style.transform = "translateY(-105px)";
-
-//     let randomTime = randomInteger(500, 600)
-//     console.log("random time", randomTime)
-
-//     setTimeout(function() {
-//       div.querySelector(".mascot-image").remove();
-//     }, randomTime)
-//   })
-// }

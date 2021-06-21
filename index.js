@@ -122,11 +122,8 @@ function countDownToStartGame(mascot) {
 function startGame(mascotsToBeWacked = 20) {
   inGameMascotCounter = 0;
 
-  for (inGameMascotCounter; inGameMascotCounter < mascotsToBeWacked; inGameMascotCounter++) {
-    gameMascot.peepMascot();
-  }
+  gameMascot.peepMascot();
 
-  alert("Game Over!");
 }
 
 function startCountDownClock(numberDiv) {

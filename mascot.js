@@ -137,40 +137,58 @@ class Mascot {
   }
 
   peepMascot() {
-    const mascotDivs = document.querySelectorAll(".mascot-div")
-    const randomMascotDiv = getRandomMascotDiv();
-    
-    const mascotImage = gameMascot.createMascotElement();
-    mascotImage.className += " absolute bottom-0 transition duration-200 left-10"
-
-    randomMascotDiv.appendChild(mascotImage)
+    console.log("InGame:", inGameMascotCounter, "total Mascots:", totalMascots)
+    if (inGameMascotCounter <= totalMascots) {
+      const mascotDivs = document.querySelectorAll(".mascot-div")
+      const randomMascotDiv = getRandomMascotDiv();
+      
+      const mascotImage = gameMascot.createMascotElement();
+      mascotImage.className += " absolute bottom-0 transition duration-200 left-10"
   
-    mascotImage.addEventListener("load", () => {
-      mascotImage.addEventListener("click", function() {
-        updateScoreboard();
+      randomMascotDiv.appendChild(mascotImage)
+    
+      mascotImage.addEventListener("load", () => {
+        mascotImage.addEventListener("click", function() {
+          updateScoreboard();
+        })
+  
+        if (allChildrenComplete(randomMascotDiv)) {
+          mascotImage.style.transform = "translateY(-105px)";
+        
+          let randomTime = randomInteger(600, 900)
+        
+          setTimeout(function() {
+            mascotImage.remove();
+            gameMascot.peepMascot();
+          }, randomTime)
+        } else {
+          mascotImage.style.transform = "translateY(-105px)";
+      
+          let randomTime = randomInteger(600, 900)
+      
+          setTimeout(function() {
+            mascotImage.remove();
+            gameMascot.peepMascot();
+            inGameMascotCounter++
+          }, randomTime)
+        }
       })
-
-      if (allChildrenComplete(randomMascotDiv)) {
-        mascotImage.style.transform = "translateY(-105px)";
-      
-        let randomTime = randomInteger(900, 1200)
-        console.log("random time", randomTime)
-      
-        setTimeout(function() {
-          mascotImage.remove();
-          gameMascot.peepMascot();
-        }, randomTime)
-      } else {
-        mascotImage.style.transform = "translateY(-105px)";
-    
-        let randomTime = randomInteger(900, 1200)
-        console.log("random time", randomTime)
-    
-        setTimeout(function() {
-          mascotImage.remove();
-          gameMascot.peepMascot();
-        }, randomTime)
+    } else {
+      const gameScreen = document.querySelector("div#game-screen");
+      while (gameScreen.lastElementChild) {
+        gameScreen.lastElementChild.remove();
       }
-    })
+
+      displayResultsAndMedia();
+
+      setTimeout(function() {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
+        gameScreen.className += " hidden"
+      }, 15000)
+    }
   }
 }

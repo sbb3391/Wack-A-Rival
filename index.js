@@ -121,6 +121,7 @@ function countDownToStartGame(mascot) {
 
 function startGame(mascotsToBeWacked = 20) {
   inGameMascotCounter = 0;
+  totalMascots = mascotsToBeWacked
 
   gameMascot.peepMascot();
 
@@ -227,6 +228,24 @@ window.addEventListener("DOMContentLoaded", () => {
     Array.from(div.children).every( element => {
       return element.complete;
     })
+  }
+
+  function displayResultsAndMedia() {
+    const gameScreen = document.querySelector("div#game-screen")
+    const resultsDiv = document.createElement("div")
+
+    resultsDiv.className = "w-5/6 h-full mx-auto my-auto text-center flex-col"
+    resultsDiv.innerHTML = `
+      <div class="w-full h-1/6">
+        <p class="text-2xl text-center">Bully Wins!</p>
+      <div>
+      <div class="w-full h-5/6 text-center flex place-self-center">
+        <img src="./gifs/msu_win2.jpg">
+      <div>
+    `
+
+    gameScreen.appendChild(resultsDiv)
+
   }
 
 

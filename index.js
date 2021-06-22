@@ -120,9 +120,8 @@ function countDownToStartGame(mascot) {
 }
 
 function startGame(mascotsToBeWacked = 20) {
-  inGameMascotCounter = 0;
 
-  for (inGameMascotCounter; inGameMascotCounter < mascotsToBeWacked; inGameMascotCounter++) {
+  for (let inGameMascotCounter = 0; inGameMascotCounter < mascotsToBeWacked; inGameMascotCounter++) {
     gameMascot.peepMascot();
   }
 

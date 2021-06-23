@@ -104,6 +104,8 @@ function countDownToStartGame(mascot) {
   gameMascot = mascot;
   const scoreboard = document.querySelector("div#scoreboard");
   const gameScreen = document.querySelector("div#game-screen");
+  
+  populateMascotsDiv();
   gameScreen.classList.remove("hidden")
 
   scoreboard.insertAdjacentElement("beforeEnd", createCountDownClockElement(5));
@@ -116,7 +118,15 @@ function countDownToStartGame(mascot) {
     behavior: 'smooth'
   });
 
-  numberDiv.addEventListener("load", startCountDownClock(numberDiv))
+  let position = null
+  const checkIfScrollIsStatic = setInterval(() => {
+    if (position === window.scrollY) {
+      clearInterval(checkIfScrollIsStatic)
+      document.querySelector("div#main-div").className += " hidden"
+      numberDiv.addEventListener("load", startCountDownClock(numberDiv))
+    }
+    position = window.scrollY
+  }, 50)
 }
 
 function startGame(mascotsToBeWacked = 20) {
@@ -145,7 +155,7 @@ function startCountDownClock(numberDiv) {
     if (parseInt(countDownTimer) === 0) {
       clearInterval(countDownVar);
       document.querySelector("div#countdown-clock").remove()
-      startGame();
+      startGame(5);
     } 
   }, 1000)
 }
@@ -240,7 +250,7 @@ window.addEventListener("DOMContentLoaded", () => {
         <p class="text-2xl text-center">Bully Wins!</p>
       <div>
       <div class="w-full h-5/6 text-center flex place-self-center">
-        <img src="./gifs/msu_win2.jpg">
+        <img src="./gifs/Cringe3.gif">
       <div>
     `
 
@@ -248,7 +258,64 @@ window.addEventListener("DOMContentLoaded", () => {
 
   }
 
+  function populateMascotsDiv() {
+    const mascotsDiv = document.querySelector("div#mascots-div");
 
+    mascotsDiv.innerHTML = `
+    <div class="flex w-full h-1/2 justify-around relative">
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10 ">
+      </div>
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10">
+      </div>
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10">
+      </div>
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10">
+      </div>
+    </div>
+    <div class="flex w-full h-1/2 relative justify-around">
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
+      </div>
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
+      </div>
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
+      </div>
+      <div class="mascot-div relative bottom-0">
+        <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
+      </div>
+    </div>
+  `
+}
+
+function resetGameScreen() {
+  const gameScreen = document.querySelector("div#game-screen");
+
+  gameScreen.innerHTML = `
+    <div id="scoreboard" class="h-1/6 relative">
+      <h1 class="text-center pt-7">Current Rivals Wacked: <span></span> </h1>
+    </div>
+    <div id="mascots-div" class="mx-auto w-10/12 z-10 h-4/5 border-2 border-black rounded-md flex flex-col">
+    </div>
+  `
+
+  scoreboard = 0;
+}
+
+function displayWinner() {
+  const scoreboard = document.querySelector("div#scoreboard");
+  
+  const winner = document.createElement("p")
+  winner.className = "text-2xl text-center"
+  winner.innerText = "Bully Wins!!"
+
+  scoreboard.insertAdjacentElement("beforeEnd", winner);
+}
 
 
 

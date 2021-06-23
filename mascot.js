@@ -174,21 +174,23 @@ class Mascot {
         }
       })
     } else {
-      const gameScreen = document.querySelector("div#game-screen");
-      while (gameScreen.lastElementChild) {
-        gameScreen.lastElementChild.remove();
-      }
-
-      displayResultsAndMedia();
-
+      displayWinner();
       setTimeout(function() {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth'
-        });
-        gameScreen.className += " hidden"
-      }, 15000)
+        const gameScreen = document.querySelector("div#game-screen");
+        
+        while (gameScreen.lastElementChild) {
+          gameScreen.lastElementChild.remove();
+        }
+  
+        displayResultsAndMedia();
+  
+        setTimeout(function() {
+          document.querySelector("div#main-div").classList.remove("hidden");
+          gameScreen.className += " hidden"
+          resetGameScreen();
+          
+        }, 15000)
+      }, 4000)
     }
   }
 }

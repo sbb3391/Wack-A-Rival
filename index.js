@@ -1,11 +1,12 @@
 const mascotImages = document.querySelector("template#mascot-images").content.children;
 let previousMascotBottom, previousMascotLeft, previousMascotDiv
-let scoreboard = 0;
 let gameDetails = {
   gameMascot: "",
   mascotsToBeWacked: 5,
   winHighlights: [],
-  lossHighlights: []
+  lossHighlights: [],
+  scoreboard: 0,
+  winner: ""
 }
 
 function getRandomMascot() {
@@ -24,8 +25,8 @@ function getRandomMascot() {
   mascotDiv.appendChild(randomMascot)
 }
 
-function randomHoleInteger() {
-  const max = document.querySelectorAll(".mascot-div").length;
+function randomArrayIndex(elementsArray) {
+  const max = elementsArray.length;
   return Math.floor(Math.random() * max);
 }
 
@@ -36,10 +37,12 @@ function randomInteger(max, min) {
 function getRandomMascotDiv() {
   let previousMascotDivIndex = Array.from(document.querySelectorAll(".mascot-div")).indexOf(previousMascotDiv)
   previousMascotDivIndex = -1 ? previousMascotDivIndex = undefined : nil
-  let getRandomMascotDiv = document.querySelectorAll(".mascot-div")[randomHoleInteger()] 
+
+  const mascotDivElements = document.querySelectorAll(".mascot-div")
+  let getRandomMascotDiv = mascotDivElements[randomArrayIndex(mascotDivElements)] 
 
   while (getRandomMascotDiv === previousMascotDiv) {
-    getRandomMascotDiv = document.querySelectorAll(".mascot-div")[randomHoleInteger()] 
+    getRandomMascotDiv = mascotDivElements[randomArrayIndex(mascotDivElements)] 
   }
 
   previousMascotDiv = getRandomMascotDiv;
@@ -97,13 +100,13 @@ function assignMascotTopAndBottom(mascotDiv) {
 }
 
 function updateScoreboard() {
-  scoreboard += 1
+  gameDetails.scoreboard += 1
   displayScore();
 }
 
 function displayScore() {
   let score = document.querySelector("div#scoreboard").querySelector("span");
-  score.innerText = scoreboard;
+  score.innerText = gameDetails.scoreboard;
 }
 
 function countDownToStartGame(mascot) {
@@ -248,21 +251,50 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayResultsAndMedia() {
-    const gameScreen = document.querySelector("div#game-screen")
-    const resultsDiv = document.createElement("div")
+    // const gameScreen = document.querySelector("div#game-screen")
+    // const resultsDiv = document.createElement("div")
 
-    resultsDiv.className = "w-5/6 h-full mx-auto my-auto text-center flex-col"
-    resultsDiv.innerHTML = `
-      <div class="w-full h-1/6">
-        <p class="text-2xl text-center">Bully Wins!</p>
-      <div>
-      <div class="w-full h-5/6 text-center flex place-self-center">
-        <img src="./gifs/Cringe3.gif">
-      <div>
+    // resultsDiv.className = "w-5/6 h-full mx-auto my-auto text-center flex-col"
+    // resultsDiv.innerHTML = `
+    //   <div class="w-full h-1/6">
+    //     <p class="text-2xl text-center">Bully Wins!</p>
+    //   <div>
+    //   <div class="w-full h-5/6 text-center flex place-self-center">
+    //     <img src="./gifs/Cringe3.gif">
+    //   <div>
+    // `
+
+    // gameScreen.appendChild(resultsDiv)
+
+    const  gameScreen = document.querySelector("div#game-screen");
+
+    const winOrLossHighlight = function() {
+      if (gameDetails.winner === "Arkansas") {
+        const teamLossHighlights = gameDetails.lossHighlights;
+        return teamLossHighlights[randomArrayIndex(teamLossHighlights)]
+      }
+      else {
+        const teamWinHighlights = gameDetails.winHighlights;
+        return teamWinHighlights[randomArrayIndex(teamWinHighlights)]
+      }
+    }
+    const highlight = winOrLossHighlight();
+
+    while (gameScreen.lastElementChild) {
+      gameScreen.lastElementChild.remove();
+    }
+  
+    const winner = document.createElement("div")
+    winner.className = "w-full h-full flex items-center justify-center"
+    winner.innerHTML = `
+      <div class="w-3/4 h-4/5 text-center">
+        <div class="text-lg my-12 w-1/2">${highlight.description}</div>
+        ${highlight.mediaUrl}
+      </div>
     `
-
-    gameScreen.appendChild(resultsDiv)
-
+  
+    gameScreen.insertAdjacentElement("beforeEnd", winner);
+    debugger;
   }
 
   function populateMascotsDiv() {
@@ -311,7 +343,7 @@ function resetGameScreen() {
     </div>
   `
 
-  scoreboard = 0;
+  gameDetails.scoreboard = 0;
 }
 
 function displayWinner() {
@@ -321,13 +353,32 @@ function displayWinner() {
   winner.className = "w-full h-full flex items-center justify-center"
   winner.innerHTML = `
     <div class="w-3/4 h-4/5 text-center">
-      <p class="text-2xl">Bully Wins!!</p>
+      <p class="text-2xl">${gameDetails.gameTeam.shorthandName} Wins</p>
       <img class="mx-auto" src="./gifs/Cringe3.gif" width=800px>
     </div>
   `
 
   gameScreen.insertAdjacentElement("beforeEnd", winner);
+}
 
+function displayHighlights() {
+  const highlightsDiv = document.createElement("div");
+  const backgroundDiv = document.createElement("div");
+
+  backgroundDiv.className = "w-5/6 h-5/6 bg-blue-100 flex justify-center align-center place-items-center space-x-8"
+  highlightsDiv.className = "w-5/12 h-5/6 bg-red-100"
+
+  highlightsDiv.innerHTML = `
+    <ul>
+    </ul>
+  `
+
+  
+
+  backgroundDiv.appendChild(highlightsDiv);
+  document.querySelector("div#form-background-div").appendChild(backgroundDiv); 
+  document.querySelector("div#main-div").className += ' filter blur-md'
+  document.querySelector("div#form-background-div").classList.remove("hidden")
 }
 
 

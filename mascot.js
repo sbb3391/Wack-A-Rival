@@ -183,20 +183,19 @@ class Mascot {
         }
   
         displayWinner();
-        Highlight.getWinOrLossMedia()
+        Highlight.getWinOrLossMedia();
   
         
         setTimeout(function() {
-          debugger;
-          // displayResultsAndMedia();
+          displayResultsAndMedia();
     
           setTimeout(function() {
             document.querySelector("div#main-div").classList.remove("hidden");
             gameScreen.className += " hidden"
             resetGameScreen();
             
-          }, 15000)
-        }, 4000)
+          }, 30000)
+        }, 8000)
       }, 3000)
     }
   }

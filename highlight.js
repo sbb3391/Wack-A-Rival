@@ -16,7 +16,7 @@ class Highlight {
 
     let newHighlight = new Highlight(highlight);
 
-    if (newHighlight.winOrLoss = "win") {
+    if (newHighlight.winOrLoss === "win") {
       gameDetails.winHighlights.push(newHighlight) 
     } else {
       gameDetails.lossHighlights.push(newHighlight)
@@ -43,7 +43,6 @@ class Highlight {
   
   static addHighlights(json) {
     json.data.forEach(function(element) {
-      if (element.attributes.win_or_loss === "win")
       Highlight.createHighlight(element)
     })
       

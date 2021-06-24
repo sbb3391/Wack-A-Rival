@@ -317,6 +317,10 @@ function displayWinner() {
   scoreboard.insertAdjacentElement("beforeEnd", winner);
 }
 
+function displayHighlight(json) {
+  debugger;
+}
+
 
 
 

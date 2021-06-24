@@ -8,7 +8,7 @@ class TeamsController < ApplicationController
 
   def index 
     teams = Team.all
-    options = {:include => [:mascot]}
+    options = {:include => [:mascot, :highlight]}
 
     render json: TeamSerializer.new(teams, options).serializable_hash
 

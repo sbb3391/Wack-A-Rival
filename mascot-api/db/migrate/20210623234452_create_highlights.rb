@@ -3,7 +3,7 @@ class CreateHighlights < ActiveRecord::Migration[6.1]
     create_table :highlights do |t|
       t.belongs_to :team
       t.string :media_url
-      t.string :description
+      t.text :description
       t.string :win_or_loss
       t.timestamps
     end

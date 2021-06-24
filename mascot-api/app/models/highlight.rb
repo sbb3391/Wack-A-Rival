@@ -1,3 +1,3 @@
-class Mascot < ApplicationRecord
+class Highlight < ApplicationRecord
   belongs_to :team
 end

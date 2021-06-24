@@ -175,6 +175,9 @@ class Mascot {
       })
     } else {
       displayWinner();
+      const winOrLossMedia = Highlight.getWinOrLossMedia()
+
+      
       setTimeout(function() {
         const gameScreen = document.querySelector("div#game-screen");
         

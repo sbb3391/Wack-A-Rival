@@ -142,7 +142,7 @@ class Mascot {
       const mascotDivs = document.querySelectorAll(".mascot-div")
       const randomMascotDiv = getRandomMascotDiv();
       
-      const mascotImage = gameMascot.createMascotElement();
+      const mascotImage = gameDetails.gameMascot.createMascotElement();
       mascotImage.className += " absolute bottom-0 transition duration-200 left-10"
   
       randomMascotDiv.appendChild(mascotImage)
@@ -159,7 +159,7 @@ class Mascot {
         
           setTimeout(function() {
             mascotImage.remove();
-            gameMascot.peepMascot();
+            gameDetails.gameMascot.peepMascot();
           }, randomTime)
         } else {
           mascotImage.style.transform = "translateY(-105px)";
@@ -168,16 +168,13 @@ class Mascot {
       
           setTimeout(function() {
             mascotImage.remove();
-            gameMascot.peepMascot();
+            gameDetails.gameMascot.peepMascot();
             inGameMascotCounter++
           }, randomTime)
         }
       })
     } else {
-      displayWinner();
-      const winOrLossMedia = Highlight.getWinOrLossMedia()
 
-      
       setTimeout(function() {
         const gameScreen = document.querySelector("div#game-screen");
         
@@ -185,15 +182,22 @@ class Mascot {
           gameScreen.lastElementChild.remove();
         }
   
-        displayResultsAndMedia();
+        displayWinner();
+        Highlight.getWinOrLossMedia()
   
+        
         setTimeout(function() {
-          document.querySelector("div#main-div").classList.remove("hidden");
-          gameScreen.className += " hidden"
-          resetGameScreen();
-          
-        }, 15000)
-      }, 4000)
+          debugger;
+          // displayResultsAndMedia();
+    
+          setTimeout(function() {
+            document.querySelector("div#main-div").classList.remove("hidden");
+            gameScreen.className += " hidden"
+            resetGameScreen();
+            
+          }, 15000)
+        }, 4000)
+      }, 3000)
     }
   }
 }

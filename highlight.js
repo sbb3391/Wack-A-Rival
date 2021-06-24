@@ -1,11 +1,30 @@
 class Highlight {
-  constructor() {
-
+  constructor(highlight) {
+    this.description = highlight["description"],
+    this.id = highlight["id"],
+    this.mediaUrl = highlight["mediaUrl"],
+    this.winOrLoss = highlight["winOrLoss"]
   }
 
+  static createHighlight(highlightData) {
+    let highlight = {}
+
+    highlight["description"] = highlightData.attributes.description,
+    highlight["mediaUrl"] = highlightData.attributes.media_url,
+    highlight["winOrLoss"] = highlightData.attributes.win_or_loss,
+    highlight["id"] = highlightData.id
+
+    let newHighlight = new Highlight(highlight);
+
+    if (newHighlight.winOrLoss = "win") {
+      gameDetails.winHighlights.push(newHighlight) 
+    } else {
+      gameDetails.lossHighlights.push(newHighlight)
+    }
+  }
   static getWinOrLossMedia() {
     const highlightParams = {
-      team_id: Team.all.find(element => element.id == gameMascot.team_id).id,
+      team_id: Team.all.find(element => element.id == gameDetails.gameMascot.team_id).id,
     }
     
     const options = {
@@ -19,6 +38,14 @@ class Highlight {
 
     fetch(`http://localhost:3000/highlights/team_highlights`, options)
     .then(resp => resp.json())
-    .then(json => displayHighlight(json))
+    .then(json => Highlight.addHighlights(json))
+  }
+  
+  static addHighlights(json) {
+    json.data.forEach(function(element) {
+      if (element.attributes.win_or_loss === "win")
+      Highlight.createHighlight(element)
+    })
+      
   }
 }

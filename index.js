@@ -1,6 +1,12 @@
 const mascotImages = document.querySelector("template#mascot-images").content.children;
 let previousMascotBottom, previousMascotLeft, previousMascotDiv
 let scoreboard = 0;
+let gameDetails = {
+  gameMascot: "",
+  mascotsToBeWacked: 5,
+  winHighlights: [],
+  lossHighlights: []
+}
 
 function getRandomMascot() {
   randomMascot = mascotImages[Math.floor(Math.random()*mascotImages.length)].cloneNode(true);
@@ -101,7 +107,8 @@ function displayScore() {
 }
 
 function countDownToStartGame(mascot) {
-  gameMascot = mascot;
+  gameDetails.gameMascot = mascot;
+  gameDetails.gameTeam = Team.all.find(element => element.id == mascot.team_id)
   const scoreboard = document.querySelector("div#scoreboard");
   const gameScreen = document.querySelector("div#game-screen");
   
@@ -133,7 +140,7 @@ function startGame(mascotsToBeWacked = 20) {
   inGameMascotCounter = 0;
   totalMascots = mascotsToBeWacked
 
-  gameMascot.peepMascot();
+  gameDetails.gameMascot.peepMascot();
 
 }
 
@@ -308,19 +315,20 @@ function resetGameScreen() {
 }
 
 function displayWinner() {
-  const scoreboard = document.querySelector("div#scoreboard");
+  const  gameScreen = document.querySelector("div#game-screen");
   
-  const winner = document.createElement("p")
-  winner.className = "text-2xl text-center"
-  winner.innerText = "Bully Wins!!"
+  const winner = document.createElement("div")
+  winner.className = "w-full h-full flex items-center justify-center"
+  winner.innerHTML = `
+    <div class="w-3/4 h-4/5 text-center">
+      <p class="text-2xl">Bully Wins!!</p>
+      <img class="mx-auto" src="./gifs/Cringe3.gif" width=800px>
+    </div>
+  `
 
-  scoreboard.insertAdjacentElement("beforeEnd", winner);
+  gameScreen.insertAdjacentElement("beforeEnd", winner);
+
 }
-
-function displayHighlight(json) {
-  debugger;
-}
-
 
 
 

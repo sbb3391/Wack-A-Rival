@@ -6,8 +6,16 @@ let gameDetails = {
   winHighlights: [],
   lossHighlights: [],
   scoreboard: 0,
-  winner: ""
+  totalRivals: 0,
+  winner: "",
+  winnerImages: [],
+  randomTimeMin: 800,
+  randomTimeMax: 1200
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  Team.getAllTeams();
+})
 
 function getRandomMascot() {
   randomMascot = mascotImages[Math.floor(Math.random()*mascotImages.length)].cloneNode(true);
@@ -99,14 +107,24 @@ function assignMascotTopAndBottom(mascotDiv) {
   return mascotDiv;
 }
 
-function updateScoreboard() {
-  gameDetails.scoreboard += 1
-  displayScore();
+function updateRivalsWacked() {
+  gameDetails.scoreboard ++
+  displayRivalsWacked();
 }
 
-function displayScore() {
-  let score = document.querySelector("div#scoreboard").querySelector("span");
+function updateTotalRivals() {
+  gameDetails.totalRivals ++
+  displayTotalRivals();
+}
+
+function displayRivalsWacked() {
+  let score = document.querySelector("span#rivals-wacked");
   score.innerText = gameDetails.scoreboard;
+}
+
+function displayTotalRivals() {
+  let totalRivals = document.querySelector("span#total-rivals");
+  totalRivals.innerText = gameDetails.totalRivals;
 }
 
 function countDownToStartGame(mascot) {
@@ -183,44 +201,6 @@ function createCountDownClockElement(initialValue) {
   return countDownClock;
 }
 
-function stopPeep() {
-  alert("game Over!")
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  Team.getAllTeams();
-})
-
-// function showMascots() {
-//   const mascots = document.querySelector("template#mascot-images").content.children;
-
-//   Array.from(mascots).forEach( mascot => {
-//     let mascotClone = mascot.cloneNode(true);
-//     mascotClone.className =""
-//     mascotClone.style.width = "75px"
-
-//     let mascotDiv = document.createElement("div");
-//     mascotDiv.className = "py-12 h-20 mascots transition duration-500 cursor-pointer"
-//     mascotDiv.dataset.MascotId = mascotClone.dataset.mascotId
-
-//     mascotDiv.appendChild(mascotClone);
-
-//     document.querySelector("div#mascot-selection").appendChild(mascotDiv);
-//   })
-
-//   for (const mascot of document.querySelectorAll(".mascots")) {
-//     mascot.addEventListener("mouseenter", e => {
-//       e.target.style.transform = "translateY(-30px)"
-//     })
-//     mascot.addEventListener("mouseleave", e => {
-//       e.target.style.transform = ""
-//     })
-//     mascot.addEventListener("click", e => {
-//       showMascotInfo(e.target.dataset.mascotId)
-//     })
-//   }
-// }
-
   function removeTeamDetails() {
     const teamDetail = document.querySelector("div#team-detail")
     if (teamDetail) {
@@ -251,21 +231,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayResultsAndMedia() {
-    // const gameScreen = document.querySelector("div#game-screen")
-    // const resultsDiv = document.createElement("div")
-
-    // resultsDiv.className = "w-5/6 h-full mx-auto my-auto text-center flex-col"
-    // resultsDiv.innerHTML = `
-    //   <div class="w-full h-1/6">
-    //     <p class="text-2xl text-center">Bully Wins!</p>
-    //   <div>
-    //   <div class="w-full h-5/6 text-center flex place-self-center">
-    //     <img src="./gifs/Cringe3.gif">
-    //   <div>
-    // `
-
-    // gameScreen.appendChild(resultsDiv)
-
     const  gameScreen = document.querySelector("div#game-screen");
 
     const winOrLossHighlight = function() {
@@ -287,14 +252,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const winner = document.createElement("div")
     winner.className = "w-full h-full flex items-center justify-center"
     winner.innerHTML = `
-      <div class="w-3/4 h-4/5 text-center">
-        <div class="text-lg my-12 w-1/2">${highlight.description}</div>
-        ${highlight.mediaUrl}
+      <div class="w-3/4 h-4/5 flex flex-col space-y-10 text-center justify-center place-items-center">
+        <div class="text-lg w-1/2">${highlight.description}</div>
+        <div>${highlight.mediaUrl}</div>
       </div>
     `
   
     gameScreen.insertAdjacentElement("beforeEnd", winner);
-    debugger;
   }
 
   function populateMascotsDiv() {
@@ -337,13 +301,14 @@ function resetGameScreen() {
 
   gameScreen.innerHTML = `
     <div id="scoreboard" class="h-1/6 relative">
-      <h1 class="text-center pt-7">Current Rivals Wacked: <span></span> </h1>
+      <h1 class="text-center pt-7">Rivals Wacked: <span id="rivals-wacked">0</span><span>/</span><span id="total-rivals">0</span> </h1>
     </div>
     <div id="mascots-div" class="mx-auto w-10/12 z-10 h-4/5 border-2 border-black rounded-md flex flex-col">
     </div>
   `
 
   gameDetails.scoreboard = 0;
+  gameDetails.totalRivals = 0;
 }
 
 function displayWinner() {
@@ -353,33 +318,72 @@ function displayWinner() {
   winner.className = "w-full h-full flex items-center justify-center"
   winner.innerHTML = `
     <div class="w-3/4 h-4/5 text-center">
-      <p class="text-2xl">${gameDetails.gameTeam.shorthandName} Wins</p>
-      <img class="mx-auto" src="./gifs/Cringe3.gif" width=800px>
+      <p class="text-2xl">${gameDetails.winner} Wins</p>
+      <img class="mx-auto" src="./gifs/Cringe2.gif" width=800px>
     </div>
   `
 
   gameScreen.insertAdjacentElement("beforeEnd", winner);
 }
 
-function displayHighlights() {
-  const highlightsDiv = document.createElement("div");
-  const backgroundDiv = document.createElement("div");
+function showHighlightDetails() {
+  const highlightId = event.target.dataset.highlightId
 
-  backgroundDiv.className = "w-5/6 h-5/6 bg-blue-100 flex justify-center align-center place-items-center space-x-8"
-  highlightsDiv.className = "w-5/12 h-5/6 bg-red-100"
-
-  highlightsDiv.innerHTML = `
-    <ul>
-    </ul>
-  `
-
-  
-
-  backgroundDiv.appendChild(highlightsDiv);
-  document.querySelector("div#form-background-div").appendChild(backgroundDiv); 
-  document.querySelector("div#main-div").className += ' filter blur-md'
-  document.querySelector("div#form-background-div").classList.remove("hidden")
+  fetch(`http://localhost:3000/highlights/${highlightId}`)
+  .then(resp => resp.json())
+  .then(json => displayHighlightDetails(json))
 }
 
+function displayHighlightDetails(json) {
+  const highlight = Highlight.createHighlight(json.data) 
+  const highlightTeamsDiv = document.querySelector("div#highlight-teams")
 
+  const highlightDiv = document.createElement("div");
+  highlightDiv.className = "w-full h-full bg-gray-200 flex z-10 absolute justify-around"
+  highlightDiv.id = "highlight-div"
+  highlightDiv.innerHTML = `
+    <div class="w-1/2 h-full flex flex-col space-y-1">
+      <div>DATE</div>
+      <div class="w-full flex space-x-4">
+        <label class="w-32">Description:</label>
+        <textarea class="resize-none border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" rows="7">${highlight.description}</textarea>
+      </div>
+      <div class="w-full flex space-x-4">
+        <label class="w-32">Media URL:</label>
+        <textarea class="resize-none border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" rows="7">${highlight.mediaUrl}</textarea>
+      </div>
+      <div class="w-full flex space-x-4">
+        <label class="w-32">Win/Loss:</label>
+        <input class="border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" value='${highlight.winOrLoss}'>
+      </div>
+    </div>
+    <div class="w-1/2 flex justify-center place-items-center relative">
+      <span class="absolute pr-1 right-0 top-0 cursor-pointer">&#88;</span>
+      <div id="highlight-iframe">${highlight.mediaUrl}</div>
+    </div>
+  `
+
+  highlightTeamsDiv.parentElement.appendChild(highlightDiv)
+  const iframe = document.querySelector("div#highlight-iframe").firstElementChild
+  iframe.width = "600"
+  iframe.height = "350"
+
+  iframe.parentElement.previousElementSibling.addEventListener("click", function() {
+    document.querySelector("div#highlight-div").remove();
+  })
+}
+
+function createHighlightsDiv() {
+  const highlightsDiv = document.createElement("div");
+  highlightsDiv.className = "w-5/12 h-5/6 flex flex-col bg-gray-200 space-y-3 relative"
+  return highlightsDiv
+}
+
+function determineGameWinner() {
+  if (gameDetails.scoreboard >= (gameDetails.totalRivals/2)) {
+    gameDetails.winner = "Arkansas"
+  } else {
+    gameDetails.winner = Team.all.find(team => team.id == gameDetails.gameMascot.team_id).shorthandName
+  }
+}
 

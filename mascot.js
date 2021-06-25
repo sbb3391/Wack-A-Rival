@@ -137,8 +137,7 @@ class Mascot {
   }
 
   peepMascot() {
-    console.log("InGame:", inGameMascotCounter, "total Mascots:", totalMascots)
-    if (inGameMascotCounter <= totalMascots) {
+    if (gameDetails.totalRivals < gameDetails.mascotsToBeWacked) {
       const mascotDivs = document.querySelectorAll(".mascot-div")
       const randomMascotDiv = getRandomMascotDiv();
       
@@ -148,14 +147,15 @@ class Mascot {
       randomMascotDiv.appendChild(mascotImage)
     
       mascotImage.addEventListener("load", () => {
+        updateTotalRivals();
         mascotImage.addEventListener("click", function() {
-          updateScoreboard();
+          updateRivalsWacked();
         })
   
         if (allChildrenComplete(randomMascotDiv)) {
           mascotImage.style.transform = "translateY(-105px)";
         
-          let randomTime = randomInteger(600, 900)
+          let randomTime = randomInteger(gameDetails.randomTimeMin, gameDetails.randomTimeMax)
         
           setTimeout(function() {
             mascotImage.remove();
@@ -164,7 +164,7 @@ class Mascot {
         } else {
           mascotImage.style.transform = "translateY(-105px)";
       
-          let randomTime = randomInteger(600, 900)
+          let randomTime = randomInteger(gameDetails.randomTimeMin, gameDetails.randomTimeMax)
       
           setTimeout(function() {
             mascotImage.remove();
@@ -174,6 +174,8 @@ class Mascot {
         }
       })
     } else {
+
+      determineGameWinner();
 
       setTimeout(function() {
         const gameScreen = document.querySelector("div#game-screen");
@@ -190,13 +192,16 @@ class Mascot {
           displayResultsAndMedia();
     
           setTimeout(function() {
+            // clear highlights from game details
+            gameDetails.winHighlights = []
+            gameDetails.lossHighglights = [] 
             document.querySelector("div#main-div").classList.remove("hidden");
             gameScreen.className += " hidden"
             resetGameScreen();
             
           }, 30000)
         }, 8000)
-      }, 3000)
+      }, 4500)
     }
   }
 }

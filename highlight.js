@@ -76,6 +76,7 @@ class Highlight {
     const backgroundDiv = document.createElement("div");
     const highlightsDiv = createHighlightsDiv();
 
+    backgroundDiv.id = "background-div"
     backgroundDiv.className = "w-5/6 h-5/6 bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
     highlightsDiv.id = "highlight-teams"
 
@@ -108,7 +109,10 @@ class Highlight {
     document.querySelector("div#form-background-div").appendChild(backgroundDiv); 
     document.querySelector("div#main-div").className += ' filter blur-md'
     document.querySelector("div#form-background-div").classList.remove("hidden")
-  
+  }
+
+  static addANewHighlight() {
+
   }
   
 }

@@ -15,7 +15,10 @@ let gameDetails = {
 
 window.addEventListener("DOMContentLoaded", () => {
   Team.getAllTeams();
+  document.querySelector("#highlight-button").addEventListener("click", Highlight.displayHighlights)
+  document.querySelector("#new-highlight-button").addEventListener("click", Highlight.addANewHighlight)
 })
+
 
 function getRandomMascot() {
   randomMascot = mascotImages[Math.floor(Math.random()*mascotImages.length)].cloneNode(true);

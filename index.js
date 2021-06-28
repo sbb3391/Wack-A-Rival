@@ -252,6 +252,7 @@ function createCountDownClockElement(initialValue) {
       gameScreen.lastElementChild.remove();
     }
   
+    debugger;
     const winner = document.createElement("div")
     winner.className = "w-full h-full flex items-center justify-center"
     winner.innerHTML = `

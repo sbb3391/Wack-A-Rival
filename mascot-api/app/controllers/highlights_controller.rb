@@ -19,7 +19,6 @@ class HighlightsController < ApplicationController
   end
 
   def create
-    byebug
     highlight = Highlight.create(highlight_params)
   end
 

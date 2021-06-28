@@ -1,5 +1,5 @@
 class HighlightSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :media_url, :description, :win_or_loss
+  attributes :media_url, :description, :highlight_type
   belongs_to :team
 end

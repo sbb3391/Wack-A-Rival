@@ -185,7 +185,7 @@ class Mascot {
         }
   
         displayWinner();
-        Highlight.getWinOrLossMedia();
+        Highlight.getHighlightMedia();
   
         
         setTimeout(function() {

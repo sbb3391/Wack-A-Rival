@@ -28,7 +28,7 @@ class Highlight {
     }
   }
 
-  static gethighlightTypeMedia() {
+  static getHighlightMedia() {
     const highlightParams = {
       team_id: Team.all.find(element => element.id == gameDetails.gameMascot.team_id).id,
     }
@@ -58,7 +58,7 @@ class Highlight {
   static parseAndDisplayAllHighlights(json) {
     const teamDivs = Array.from(document.querySelector("div#highlight-teams").children)
     json.data.forEach(function(element) {
-      const divForThisHighlight = teamDivs.find(div => div.dataset.teamId === element.relationships.team.data.id)
+      const divForThisHighlight = teamDivs.find(div => div.dataset.teamId == element.relationships.team.data.id)
       const team = Team.all.find(team => team.id === divForThisHighlight.dataset.teamId)
       const ul = divForThisHighlight.firstElementChild
       const newLi = document.createElement("li");

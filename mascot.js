@@ -199,7 +199,7 @@ class Mascot {
             gameScreen.className += " hidden"
             resetGameScreen();
             
-          }, 30000)
+          }, 8000)
         }, 8000)
       }, 4500)
     }

@@ -112,7 +112,59 @@ class Highlight {
   }
 
   static addANewHighlight() {
+    const backgroundDiv = document.createElement("div");
+    const highlightsDiv = createHighlightsDiv();
+
+    backgroundDiv.id = "background-div"
+    backgroundDiv.className = "w-5/6 h-5/6 bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
+    highlightsDiv.id = "new-highlight"
+    highlightsDiv.className += " space-y-3 overflow-auto"
+
+    const newSpan = document.createElement("span")
+    newSpan.innerHTML = "&#88;"
+    newSpan.className = "absolute right-0 top-0 cursor-pointer pr-1"
+    highlightsDiv.insertAdjacentElement("afterbegin", newSpan)
+
+    newSpan.addEventListener("click", function() {
+      backgroundDiv.remove();
+      document.querySelector("div#main-div").classList.remove("filter", "blur-md");
+      document.querySelector("div#form-background-div").classList.add("hidden")
+    })
+
+    backgroundDiv.appendChild(highlightsDiv);
+    document.querySelector("div#form-background-div").appendChild(backgroundDiv); 
+    document.querySelector("div#main-div").className += ' filter blur-md'
+    document.querySelector("div#form-background-div").classList.remove("hidden")
+
+    highlightsDiv.innerHTML += `
+      <h1 class="font-bold text-2xl text-center mt-2">New Highlight</h1>
+      <div class="w-full flex flex-col">
+        <label class="mx-4">Description</label>
+        <textarea class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md" rows="7"></textarea> 
+      </div>
+      <div class="w-full flex flex-col">
+        <label class="mx-4">Media Url</label>
+        <textarea class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md" rows="7"></textarea> 
+      </div>
+      <div class="w-full h-1/4 flex flex-col">
+        <label class="mx-4">Highlight Type</label>
+        <select class="border-black border-2 mx-4 rounded-md bg-gray-200 w-3/4 text-md">
+          <option value="Win">Win</option>
+          <option value="Loss">Loss</option>
+          <option value="Arkansas Highlight">Arkansas Highlight</option>
+          <option value="Arkansas fail">Arkansas Fail</option>
+        </select>
+      </div>
+      <div class="flex place-items-center justify-center pb-5">
+        <button id="create-highlight-button" class="bg-blue-400 font-white w-36 h-10 rounded-md whitespace-normal">Create Highlight</button>
+      </div> 
+    `
+
+    document.querySelector("#create-highlight-button").addEventListener("click", Highlight.submitHighlight)
 
   }
   
+  static submitHighlight() {
+    debugger;
+  }
 }

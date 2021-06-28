@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_23_234452) do
+ActiveRecord::Schema.define(version: 2021_06_28_021306) do
 
   create_table "highlights", force: :cascade do |t|
     t.integer "team_id"
     t.string "media_url"
     t.text "description"
-    t.string "win_or_loss"
+    t.string "highlight_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["team_id"], name: "index_highlights_on_team_id"

@@ -357,7 +357,7 @@ function displayHighlightDetails(json) {
       </div>
       <div class="w-full flex space-x-4">
         <label class="w-32">Win/Loss:</label>
-        <input class="border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" value='${highlight.winOrLoss}'>
+        <input class="border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" value='${highlight.highlightType}'>
       </div>
     </div>
     <div class="w-1/2 flex justify-center place-items-center relative">

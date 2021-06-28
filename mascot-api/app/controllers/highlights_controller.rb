@@ -17,4 +17,16 @@ class HighlightsController < ApplicationController
     
     render json: HighlightSerializer.new(highlight).serializable_hash
   end
+
+  def create
+    byebug
+    highlight = Highlight.create(highlight_params)
+  end
+
+
+  private 
+
+  def highlight_params
+    params.require(:highlight).permit(:description, :media_url, :highlight_type, :team_id)
+  end
 end

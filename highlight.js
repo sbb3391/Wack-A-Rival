@@ -3,7 +3,7 @@ class Highlight {
     this.description = highlight["description"],
     this.id = highlight["id"],
     this.mediaUrl = highlight["mediaUrl"],
-    this.winOrLoss = highlight["winOrLoss"],
+    this.highlightType = highlight["highlightType"],
     this.teamId = highlight["teamId"]
   }
 
@@ -12,7 +12,7 @@ class Highlight {
 
     highlight["description"] = highlightData.attributes.description,
     highlight["mediaUrl"] = highlightData.attributes.media_url,
-    highlight["winOrLoss"] = highlightData.attributes.win_or_loss,
+    highlight["highlightType"] = highlightData.attributes.highlight_type,
     highlight["id"] = highlightData.id
     highlight["teamId"] = highlightData.relationships.team.data.id
 
@@ -20,15 +20,15 @@ class Highlight {
     return newHighlight;
   }
 
-  pushHighlightToWinOrLoss() {
-    if (this.winOrLoss === "win") {
+  pushHighlightTohighlightType() {
+    if (this.highlightType === "Win") {
       gameDetails.winHighlights.push(this) 
-    } else {
+    } else if (this.highlightType === "Loss") {
       gameDetails.lossHighlights.push(this)
     }
   }
 
-  static getWinOrLossMedia() {
+  static gethighlightTypeMedia() {
     const highlightParams = {
       team_id: Team.all.find(element => element.id == gameDetails.gameMascot.team_id).id,
     }
@@ -50,7 +50,7 @@ class Highlight {
   static addHighlights(json) {
     json.data.forEach(function(element) {
       let newHighlight = Highlight.createHighlight(element)
-      newHighlight.pushHighlightToWinOrLoss();
+      newHighlight.pushHighlightTohighlightType();
     })
       
   }
@@ -62,7 +62,7 @@ class Highlight {
       const team = Team.all.find(team => team.id === divForThisHighlight.dataset.teamId)
       const ul = divForThisHighlight.firstElementChild
       const newLi = document.createElement("li");
-      newLi.innerText = `${team.shorthandName} ${element.attributes.win_or_loss} -- DATE`
+      newLi.innerText = `${team.shorthandName} ${element.attributes.highlight_type} -- DATE`
       newLi.dataset.highlightId = element.id
       newLi.className = "pl-8 text-sm cursor-pointer"
 
@@ -122,49 +122,93 @@ class Highlight {
 
     const newSpan = document.createElement("span")
     newSpan.innerHTML = "&#88;"
+    newSpan.id = "close-new-highlight-form"
     newSpan.className = "absolute right-0 top-0 cursor-pointer pr-1"
     highlightsDiv.insertAdjacentElement("afterbegin", newSpan)
-
-    newSpan.addEventListener("click", function() {
+    
+    backgroundDiv.appendChild(highlightsDiv);
+    document.querySelector("div#form-background-div").appendChild(backgroundDiv); 
+    document.querySelector("div#main-div").className += ' filter blur-md'
+    document.querySelector("div#form-background-div").classList.remove("hidden")
+    
+    document.querySelector("#close-new-highlight-form").addEventListener("click", function() {
       backgroundDiv.remove();
       document.querySelector("div#main-div").classList.remove("filter", "blur-md");
       document.querySelector("div#form-background-div").classList.add("hidden")
     })
 
-    backgroundDiv.appendChild(highlightsDiv);
-    document.querySelector("div#form-background-div").appendChild(backgroundDiv); 
-    document.querySelector("div#main-div").className += ' filter blur-md'
-    document.querySelector("div#form-background-div").classList.remove("hidden")
+    const teamNameWithId = Team.all.map(team => [team.shorthandName, team.id])
 
     highlightsDiv.innerHTML += `
       <h1 class="font-bold text-2xl text-center mt-2">New Highlight</h1>
-      <div class="w-full flex flex-col">
-        <label class="mx-4">Description</label>
-        <textarea class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md" rows="7"></textarea> 
-      </div>
-      <div class="w-full flex flex-col">
-        <label class="mx-4">Media Url</label>
-        <textarea class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md" rows="7"></textarea> 
-      </div>
-      <div class="w-full h-1/4 flex flex-col">
-        <label class="mx-4">Highlight Type</label>
-        <select class="border-black border-2 mx-4 rounded-md bg-gray-200 w-3/4 text-md">
-          <option value="Win">Win</option>
-          <option value="Loss">Loss</option>
-          <option value="Arkansas Highlight">Arkansas Highlight</option>
-          <option value="Arkansas fail">Arkansas Fail</option>
-        </select>
-      </div>
-      <div class="flex place-items-center justify-center pb-5">
-        <button id="create-highlight-button" class="bg-blue-400 font-white w-36 h-10 rounded-md whitespace-normal">Create Highlight</button>
-      </div> 
+      <form id="create-highlight-form">
+        <div class="flex flex-col space-y-3">
+          <div class="w-full flex flex-col">
+            <label class="mx-4">Team</label>
+            <select id="team-id" class="border-black border-2 mx-4 rounded-md bg-gray-200 w-3/4 text-md">
+            </select>
+          </div>
+          <div class="w-full flex flex-col">
+            <label class="mx-4">Description</label>
+            <textarea id="description" class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md" rows="7"></textarea> 
+          </div>
+          <div class="w-full flex flex-col">
+            <label class="mx-4">Media Url</label>
+            <textarea id="media-url" class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md" rows="7"></textarea> 
+          </div>
+          <div class="w-full h-1/4 flex flex-col">
+            <label class="mx-4">Highlight Type</label>
+            <select id="highlight-type" class="border-black border-2 mx-4 rounded-md bg-gray-200 w-3/4 text-md">
+              <option value="Win">Win</option>
+              <option value="Loss">Loss</option>
+              <option value="Arkansas Highlight">Arkansas Highlight</option>
+              <option value="Arkansas fail">Arkansas Fail</option>
+            </select>
+          </div>
+          <div class="flex place-items-center justify-center pb-5">
+            <input type="submit" value="Create Highlight" class="bg-blue-400 font-white w-36 h-10 rounded-md whitespace-normal">
+          </div> 
+        <div>
+      <form>
     `
 
-    document.querySelector("#create-highlight-button").addEventListener("click", Highlight.submitHighlight)
+    const teamSelect = document.querySelector("#team-id");
+
+
+    teamNameWithId.forEach(team => {teamSelect.innerHTML += `<option value='${team[1]}'>${team[0]}</option`});
+
+    document.querySelector("#create-highlight-form").addEventListener("submit", Highlight.submitHighlight)
 
   }
   
-  static submitHighlight() {
+  static submitHighlight(event) {
+    event.preventDefault;
+
+    const data = {
+      highlight: {
+        team_id: document.querySelector("#team-id").value,
+        description: document.querySelector("#description").value,
+        media_url: document.querySelector("#media-url").value,
+        highlight_type: document.querySelector("#highlight-type").value
+      } 
+    }
+
     debugger;
-  }
+
+    fetch('http://localhost:3000/highlights', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      console.log(error)
+    });
+      }
 }

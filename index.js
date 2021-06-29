@@ -132,7 +132,7 @@ function displayTotalRivals() {
 
 function countDownToStartGame(mascot) {
   gameDetails.gameMascot = mascot;
-  gameDetails.gameTeam = Team.all.find(element => element.id == mascot.team_id)
+  gameDetails.gameTeam = Team.all.find(element => element.id == mascot.teamId)
   const scoreboard = document.querySelector("div#scoreboard");
   const gameScreen = document.querySelector("div#game-screen");
   
@@ -143,21 +143,24 @@ function countDownToStartGame(mascot) {
   const countDownClock = document.querySelector("div#countdown-clock")
   const numberDiv = countDownClock.querySelector("div#number-div")
 
-  window.scrollTo({
-    top: gameScreen.scrollHeight,
-    left: 0,
-    behavior: 'smooth'
-  });
-
-  let position = null
-  const checkIfScrollIsStatic = setInterval(() => {
-    if (position === window.scrollY) {
-      clearInterval(checkIfScrollIsStatic)
-      document.querySelector("div#main-div").className += " hidden"
-      numberDiv.addEventListener("load", startCountDownClock(numberDiv))
-    }
-    position = window.scrollY
-  }, 50)
+  setTimeout(function() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+ 
+    let position = null
+    const checkIfScrollIsStatic = setInterval(() => {
+      if (position === window.scrollY) {
+        clearInterval(checkIfScrollIsStatic)
+        document.querySelector("div#main-div").className += " hidden"
+        document.querySelector("div#landing-div").className += " hidden"
+        numberDiv.addEventListener("load", startCountDownClock(numberDiv))
+      }
+      position = window.scrollY
+    }, 50)
+  },500)
 }
 
 function startGame(mascotsToBeWacked = 20) {
@@ -207,7 +210,14 @@ function createCountDownClockElement(initialValue) {
   function removeTeamDetails() {
     const teamDetail = document.querySelector("div#team-detail")
     if (teamDetail) {
-      teamDetail.remove();
+      while (teamDetail.lastElementChild) {
+        teamDetail.lastElementChild.remove();
+      }
+
+    }
+
+    if (document.querySelector("#team-and-button")) {
+      document.querySelector("#team-and-button").remove();
     }
   }
 
@@ -251,8 +261,7 @@ function createCountDownClockElement(initialValue) {
     while (gameScreen.lastElementChild) {
       gameScreen.lastElementChild.remove();
     }
-  
-    debugger;
+
     const winner = document.createElement("div")
     winner.className = "w-full h-full flex items-center justify-center"
     winner.innerHTML = `
@@ -388,6 +397,72 @@ function determineGameWinner() {
     gameDetails.winner = "Arkansas"
   } else {
     gameDetails.winner = Team.all.find(team => team.id == gameDetails.gameMascot.team_id).shorthandName
+  }
+}
+
+function displayGameSettings() {
+  const newDiv = document.createElement("div")
+
+  newDiv.className = "flex flex-col space-y-2 w-1/3 mx-auto justify-center mt-8 border-black border-2 rounded-md pt-2"
+  newDiv.id = "game-settings"
+  newDiv.innerHTML = `
+    <h1 class="text-center">Difficulty Level:</h1>
+    <div id="radio-div" class="flex flex-col justify-center place-items-center space-y-1 p-3">
+      <div>
+        <input type="radio" name="difficulty-level" data-difficulty="1"><label>Walk On</label>
+      </div>
+      <div>
+        <input type="radio" name="difficulty-level" data-difficulty="2"><label>Starter</label>
+      </div>
+      <div>
+        <input type="radio" name="difficulty-level" data-difficulty="3"><label>All Conference</label>
+      </div>
+      <div>
+        <input type="radio" name="difficulty-level" data-difficulty="4"><label>All American</label>
+      </div>
+      <div>
+        <button class="bg-blue-400 text-white w-48 h-6 border rounded-md" id="go-button">Go</button>
+      </div>
+    </div>
+  `
+
+  document.querySelector("#team-and-button").parentElement.appendChild(newDiv);
+  
+  const goBtn = document.querySelector("#go-button");
+  const mascot = Mascot.all.find(mascot => mascot.name == document.querySelector("#mascot-description").innerText)
+
+  goBtn.addEventListener("click", function() {
+    const selectedDifficulty = document.querySelector("#radio-div").querySelector("input:checked").dataset.difficulty;
+    updateGameDetailDifficultySettings(selectedDifficulty);
+    countDownToStartGame(mascot);
+    setTimeout(function() {
+      newDiv.remove();
+    }, 1000);
+  })
+}
+
+function updateGameDetailDifficultySettings(difficulty) {
+  switch(difficulty) {
+    case "1":
+      gameDetails.mascotsToBeWacked = 5;
+      gameDetails.randomTimeMin = 900;
+      gameDetails.randomTimeMax = 1400;
+      break;
+    case "2":
+      gameDetails.mascotsToBeWacked = 10;
+      gameDetails.randomTimeMin = 800;
+      gameDetails.randomTimeMax = 1200;
+      break;
+    case "3":
+      gameDetails.mascotsToBeWacked = 15;
+      gameDetails.randomTimeMin = 700;
+      gameDetails.randomTimeMax = 1100;
+      break;
+    case "4":
+      gameDetails.mascotsToBeWacked = 20;
+      gameDetails.randomTimeMin = 600;
+      gameDetails.randomTimeMax = 950;
+      break;
   }
 }
 

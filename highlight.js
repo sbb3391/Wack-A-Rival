@@ -20,10 +20,11 @@ class Highlight {
     return newHighlight;
   }
 
-  pushHighlightTohighlightType() {
-    if (this.highlightType === "Win") {
+  pushHighlightToHighlightType() {
+    debugger;
+    if (this.highlightType.toLowerCase() === "win") {
       gameDetails.winHighlights.push(this) 
-    } else if (this.highlightType === "Loss") {
+    } else if (this.highlightType.toLowerCase() === "loss") {
       gameDetails.lossHighlights.push(this)
     }
   }
@@ -50,13 +51,14 @@ class Highlight {
   static addHighlights(json) {
     json.data.forEach(function(element) {
       let newHighlight = Highlight.createHighlight(element)
-      newHighlight.pushHighlightTohighlightType();
+      newHighlight.pushHighlightToHighlightType();
     })
       
   }
 
   static parseAndDisplayAllHighlights(json) {
     const teamDivs = Array.from(document.querySelector("div#highlight-teams").children)
+    debugger;
     json.data.forEach(function(element) {
       const divForThisHighlight = teamDivs.find(div => div.dataset.teamId == element.relationships.team.data.id)
       const team = Team.all.find(team => team.id === divForThisHighlight.dataset.teamId)
@@ -140,7 +142,7 @@ class Highlight {
     const teamNameWithId = Team.all.map(team => [team.shorthandName, team.id])
 
     highlightsDiv.innerHTML += `
-      <h1 class="font-bold text-2xl text-center mt-2">New Highlight</h1>
+      <h1 class="font-serif[1] font-bold text-2xl text-center mt-2">New Highlight</h1>
       <form id="create-highlight-form">
         <div class="flex flex-col space-y-3">
           <div class="w-full flex flex-col">

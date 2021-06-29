@@ -53,26 +53,44 @@ class Team {
     const mascotId = document.querySelector(".mascot-image").dataset.mascotId
     const mascotObject = Mascot.all.find( element => { return this.id == mascotId })
     
-    const teamDetailDiv = document.createElement("div")
-    teamDetailDiv.id = "team-detail"
-    teamDetailDiv.className = "w-full h-3/5"
-    teamDetailDiv.innerHTML = `
-      <div class="flex flex-col justify-center space-y-2 py-3">
+    const teamAndButton = document.createElement("div")
+    teamAndButton.id = "team-and-button"
+    teamAndButton.className = "w-full"
+    teamAndButton.innerHTML = `
+      <div class="flex flex-col justify-center space-y-2">
         <h1 class="text-center text-3xl">${this.school}</h1>
-        <h3 class="text-center text-xl">${this.shorthandName} ${this.nickname}</h3>
         <div class="self-center">
-          <button class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.wackA}</button>
+          <button id="wack-a-button" class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.wackA}</button>
         </div>
       </div>
       <div>
       </div>
     `
+
+    const teamOverviewDiv = document.createElement("div")
+    teamOverviewDiv.className = "w-full h-full flex flex-col align-center space-y-4 pt-6"
+    teamOverviewDiv.innerHTML = `
+      <h1 class="text-center">${this.shorthandName} ${this.nickname}</h1>
+      <div class="flex justify-center">
+        <img class="text-center self-center items-center content-center" src="./gifs/golden-boot.jpg" width="400">
+      </div>
+      <div>
+        <p class="text-center">Rivalry Overview<p><br>
+        <p class="text-center">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to 
+      </div>
+      <div>
+        <p class="text-center">Fun Fact<p><br>
+        <p class="text-center">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to 
+      </div>
+      <p class="text-center">Series Record: 100-18<p>
+    `
   
-    document.querySelector("div#top-view").insertAdjacentElement("afterend", teamDetailDiv)
+    document.querySelector("div#mascot-selection").parentElement.insertAdjacentElement("beforeEnd", teamAndButton)
+    document.querySelector("div#main-div").firstElementChild.appendChild(teamOverviewDiv);
   
-    teamDetailDiv.querySelector("button").addEventListener("click", () => {
+    document.querySelector("#wack-a-button").addEventListener("click", () => {
       event.preventDefault();
-      countDownToStartGame(this.mascot);
+      displayGameSettings();
   
     })
   }

@@ -2,10 +2,10 @@ class Mascot {
   constructor(mascot) {
     this.id = mascot["id"],
     this.name = mascot["name"]
-    this.origin_description = mascot["origin_description"],
-    this.cartoon_image_location = mascot["cartoon_image_location"],
-    this.real_life_image_location = mascot["real_life_image_location"],
-    this.team_id = mascot["team_id"]
+    this.originDescription = mascot["origin_description"],
+    this.cartoonImageLocation = mascot["cartoon_image_location"],
+    this.realLifeImage_location = mascot["real_life_image_location"],
+    this.teamId = mascot["team_id"]
   }
 
   static addMascot(mascotData) {
@@ -20,7 +20,7 @@ class Mascot {
     let newMascot = new Mascot(mascot)
   
     Mascot.all.push(newMascot)
-    Team.all.find( element => {return element.id == newMascot["team_id"]}).mascot = newMascot
+    Team.all.find( element => {return element.id == newMascot["teamId"]}).mascot = newMascot
   }
 
   static all = [];
@@ -52,6 +52,10 @@ class Mascot {
     currentMascot.transitionMascotAndListenForClick();
 
     document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(currentMascot) + 1}/${Mascot.all.length}`
+
+    const thisTeam = Team.all.find(team => team.id == currentMascot.teamId);
+    
+    thisTeam.showTeamAndMascotDetails();
   
     currentMascotImage.addEventListener("load", function() {
       const next = document.querySelector("a#next")
@@ -69,6 +73,7 @@ class Mascot {
   showNextMascot() {
     removeTeamDetails();
     hideGameScreen();
+    debugger;
   
     if (Mascot.all.indexOf(this) == Mascot.all.length - 1) {
       const firstMascotImage = Mascot.all[0].createMascotElement();
@@ -81,6 +86,8 @@ class Mascot {
       next.addEventListener("click", () => { Mascot.all[0].showNextMascot() })
     } else {
       const newMascot = Mascot.all[Mascot.all.indexOf(this) + 1]
+      const thisTeam = Team.all.find(team => team.id == newMascot.teamId)
+
       const newMascotImg = newMascot.createMascotElement();
       // remove current mascot image
       document.querySelector("img.mascot-image").remove();
@@ -90,6 +97,8 @@ class Mascot {
       document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot) + 1}/${Mascot.all.length}`
       document.querySelector("div#mascot-description").innerText = `${Mascot.all[Mascot.all.indexOf(newMascot)].name}`
       const next = document.querySelector("a#next")
+
+      thisTeam.showTeamAndMascotDetails();
       next.addEventListener("click", () => { Mascot.all[parseInt(Mascot.all.indexOf(this) + 1)].showNextMascot() })
     }
   }
@@ -114,8 +123,8 @@ class Mascot {
   createMascotElement() {
     const image = document.createElement("img");
 
-    image.src = this.cartoon_image_location
-    image.setAttribute("width", "110px")
+    image.src = this.cartoonImageLocation
+    image.setAttribute("width", "100px")
     image.setAttribute("data-mascot-id", this.id)
     image.className = "mascot-image text-center"
   
@@ -124,7 +133,7 @@ class Mascot {
 
   transitionMascotAndListenForClick() {
     const mascotDiv = document.querySelector("div#current-mascot")
-    const teamOfThisMascot = Team.all.find( element => { return element.id == this.team_id} )
+    const teamOfThisMascot = Team.all.find( element => { return element.id == this.teamId} )
     mascotDiv.children[0].addEventListener("mouseenter", e => {
       mascotDiv.style.transform = "translateY(-20px)"
     })
@@ -196,9 +205,25 @@ class Mascot {
             gameDetails.winHighlights = []
             gameDetails.lossHighglights = [] 
             document.querySelector("div#main-div").classList.remove("hidden");
-            gameScreen.className += " hidden"
-            resetGameScreen();
-            
+            document.querySelector("div#landing-div").classList.remove("hidden");
+            window.scrollTo(0, document.body.scrollHeight)
+
+            setTimeout(function() {
+              window.scrollTo({
+                top: document.querySelector("div#main-div").scrollHeight,
+                left: 0,
+                behavior: 'smooth'
+              })
+              let position = null
+              const checkIfScrollIsStatic = setInterval(() => {
+                if (position === window.scrollY) {
+                  clearInterval(checkIfScrollIsStatic)
+                  gameScreen.className += " hidden"
+                  resetGameScreen();
+                }
+                position = window.scrollY
+              }, 50)
+            }, 500)
           }, 8000)
         }, 8000)
       }, 4500)

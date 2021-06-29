@@ -12,8 +12,11 @@
 
 ActiveRecord::Schema.define(version: 2021_06_28_021306) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "highlights", force: :cascade do |t|
-    t.integer "team_id"
+    t.bigint "team_id"
     t.string "media_url"
     t.text "description"
     t.string "highlight_type"
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_021306) do
     t.text "origin_description"
     t.string "cartoon_image_location"
     t.string "real_life_image_location"
-    t.integer "team_id"
+    t.bigint "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["team_id"], name: "index_mascots_on_team_id"

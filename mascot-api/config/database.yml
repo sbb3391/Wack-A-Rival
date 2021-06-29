@@ -16,11 +16,9 @@
 #
 default: &default
   adapter: postgresql
-  encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: 127.0.0.1
  
 
 development:
@@ -84,4 +82,3 @@ test:
 production:
   <<: *default
   database: mascot_api_production
-  username: mascot_api

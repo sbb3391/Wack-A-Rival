@@ -279,30 +279,30 @@ function createCountDownClockElement(initialValue) {
 
     mascotsDiv.innerHTML = `
     <div class="flex w-full h-1/2 justify-around relative">
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10 ">
       </div>
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10">
       </div>
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10">
       </div>
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-16 z-10">
       </div>
     </div>
     <div class="flex w-full h-1/2 relative justify-around">
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
       </div>
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
       </div>
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
       </div>
-      <div class="mascot-div relative bottom-0">
+      <div class="mascot-div relative bottom-0 select-none">
         <img src="wack-a-mole-images/dirt-pile.png" width="175" class="relative top-14 z-10">
       </div>
     </div>

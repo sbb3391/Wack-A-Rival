@@ -57,9 +57,14 @@ class Mascot {
     
     thisTeam.showTeamAndMascotDetails();
   
+    function previousMascot() { 
+      currentMascot.showPreviousMascot() 
+    }
+
     currentMascotImage.addEventListener("load", function() {
       const next = document.querySelector("a#next")
       const previous = document.querySelector("a#previous")
+
   
       next.addEventListener("click", () => {
         currentMascot.showNextMascot();
@@ -71,19 +76,38 @@ class Mascot {
   }
   
   showNextMascot() {
+    const a = event.target;
+    const aClone = a.cloneNode(true)
+    a.parentElement.replaceChild(aClone, a)
+
     removeTeamDetails();
     hideGameScreen();
-    debugger;
   
     if (Mascot.all.indexOf(this) == Mascot.all.length - 1) {
-      const firstMascotImage = Mascot.all[0].createMascotElement();
+      const newMascot = Mascot.all[0]
+      const thisTeam = Team.all.find(team => team.id == newMascot.teamId)
+
+      const newMascotImg = newMascot.createMascotElement();
+      // remove current mascot image
       document.querySelector("img.mascot-image").remove();
-      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", firstMascotImage)
-      Mascot.all[0].transitionMascotAndListenForClick() 
-      document.querySelector("div#image-counter").innerText = `1/${Mascot.all.length}`
-      document.querySelector("div#mascot-description").innerText = `${Mascot.all[0].name}`
+      // add next mascot image to carosel
+      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", newMascotImg) 
+      newMascot.transitionMascotAndListenForClick();
+      document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot) + 1}/${Mascot.all.length}`
+      document.querySelector("div#mascot-description").innerText = `${Mascot.all[Mascot.all.indexOf(newMascot)].name}`
       const next = document.querySelector("a#next")
+
+      thisTeam.showTeamAndMascotDetails();
       next.addEventListener("click", () => { Mascot.all[0].showNextMascot() })
+
+      // const firstMascotImage = Mascot.all[0].createMascotElement();
+      // document.querySelector("img.mascot-image").remove();
+      // document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", firstMascotImage)
+      // Mascot.all[0].transitionMascotAndListenForClick() 
+      // document.querySelector("div#image-counter").innerText = `1/${Mascot.all.length}`
+      // document.querySelector("div#mascot-description").innerText = `${Mascot.all[0].name}`
+      // const next = document.querySelector("a#next")
+      
     } else {
       const newMascot = Mascot.all[Mascot.all.indexOf(this) + 1]
       const thisTeam = Team.all.find(team => team.id == newMascot.teamId)
@@ -103,20 +127,48 @@ class Mascot {
     }
   }
   
-  showPreviousMascot(e) {
-    const currentMascot = e.target.parentElement.querySelector("img");
-    const mascotId = parseInt(currentMascot.dataset.mascotId)
-  
-    if (mascotId === 1) {
-      document.querySelector("img.mascot-image").remove();
-      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", mascotImagesArray[mascotImagesArray.length - 1]) 
-      document.querySelector("div#image-counter").innerText = `${mascotImagesArray.length}/${mascotImagesArray.length}`
-    } else {
+  showPreviousMascot() {
+    const a = event.target;
+    const aClone = a.cloneNode(true)
+    a.parentElement.replaceChild(aClone, a)
+    
+    removeTeamDetails();
+    hideGameScreen();
+
+    const thisTeam = Team.all.find(team => team.id == this.teamId)
+
+    if (Team.all.indexOf(thisTeam) === 0) {
+      const newMascot = Mascot.all[Mascot.all.length - 1]
+      const newMascotImg = newMascot.createMascotElement();
       // remove current mascot image
-      currentMascot.remove();
+      document.querySelector("img.mascot-image").remove();
       // add next mascot image to carosel
-      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", mascotImagesArray[parseInt(mascotId) - 1]) 
-      document.querySelector("div#image-counter").innerText = `${mascotId-1}/${mascotImagesArray.length}`
+      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", newMascotImg) 
+      newMascot.transitionMascotAndListenForClick();
+      document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot) + 1}/${Mascot.all.length}`
+      document.querySelector("div#mascot-description").innerText = `${Mascot.all[Mascot.all.indexOf(newMascot)].name}`
+      const previous = document.querySelector("a#previous")
+      const teamForThisMascot = Team.all.find(team => team.id == newMascot.teamId)
+
+      teamForThisMascot.showTeamAndMascotDetails();
+
+      previous.addEventListener("click", () => Mascot.all[Mascot.all.length - 1].showPreviousMascot());
+    } else {
+      const newMascot = Mascot.all[Mascot.all.indexOf(this) - 1]
+
+      const newMascotImg = newMascot.createMascotElement();
+      // remove current mascot image
+      document.querySelector("img.mascot-image").remove();
+      // add next mascot image to carosel
+      document.querySelector("div#current-mascot").insertAdjacentElement("beforeend", newMascotImg) 
+      newMascot.transitionMascotAndListenForClick();
+      document.querySelector("div#image-counter").innerText = `${Mascot.all.indexOf(newMascot) + 1}/${Mascot.all.length}`
+      document.querySelector("div#mascot-description").innerText = `${Mascot.all[Mascot.all.indexOf(newMascot)].name}`
+      const previous = document.querySelector("a#previous")
+      const teamForThisMascot = Team.all.find(team => team.id == newMascot.teamId)
+      teamForThisMascot.showTeamAndMascotDetails();
+
+      previous.addEventListener("click", () => { newMascot.showPreviousMascot() })
     }
   }
   

@@ -1,0 +1,267 @@
+
+---
+ar_internal_metadata:
+  columns:
+  - key
+  - value
+  - created_at
+  - updated_at
+  records: 
+  - - environment
+    - development
+    - '2021-06-14 22:08:07.283235'
+    - '2021-06-14 22:08:07.283235'
+
+---
+highlights:
+  columns:
+  - id
+  - team_id
+  - media_url
+  - description
+  - highlight_type
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - 1
+    - <iframe width="560" height="315" src="https://www.youtube.com/embed/g47OCvySrhA"
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+      clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    - 'Enjoy the Hogs last win against the Crimson Tide. It''s not important that
+      this was 15 years ago... Arkansas defeats #22 Alabama 24-23 in double OT with
+      a pass to Ben Cleveland. Expectations were launched for Cleveland and the trio
+      of Springdale Freshman, most of all quarterback Mitch Mustain'
+    - loss
+    - '2021-06-24 00:11:05.941687'
+    - '2021-06-24 00:11:05.941687'
+  - - 2
+    - 1
+    - <iframe width="560" height="315" src="https://www.youtube.com/embed/xa66g7SF9mc"
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+      clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    - 'Throw some salt on the wound with one of the toughest Arkansas losses in recent
+      decades. Arkansas lead #1 and eventual national champion Alabama 20-7 deep in
+      the third quarter. Two 4th quarter interceptions by Ryan Mallet let the Tide
+      squeak out of Fayetteville with the victory. What might have been...'
+    - win
+    - '2021-06-24 00:20:12.134115'
+    - '2021-06-24 00:20:12.134115'
+  - - 3
+    - 1
+    - <iframe width="560" height="315" src="https://www.youtube.com/embed/KdEKW374fCk"
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+      clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    - Avoid if you have a weak stomach. Alabama crushes the Hogs 48-7 in 2019 as the
+      Chad Morris Era spirals. Ouch.
+    - win
+    - '2021-06-24 00:20:12.157142'
+    - '2021-06-24 00:20:12.157142'
+  - - 4
+    - 3
+    - <iframe width="560" height="315" src="https://www.youtube.com/embed/iDUO6z9wn-c"
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+      clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    - 'Relive a dissapointing loss to LSU in 2006, as #5 Arkansas loses at home to
+      #9 LSU with a trip to Atlanta on the line. 189 and two TD''s from Darren Mcfadden
+      wasn''t enough to topple the Tigers.'
+    - win
+    - '2021-06-24 17:48:14.811206'
+    - '2021-06-24 17:48:14.811206'
+  - - 5
+    - 3
+    - <iframe width="560" height="315" src="https://www.youtube.com/embed/Hv8kSOfoC54"
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+      clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    - "#3 Arkansas and #1 LSU showdown in Baton Rouge in 2011. LSU Runs away with
+      this one scoring 17 unanswered in the 4th quarter, on their way to national
+      Championship game. A tough loss in an otherwise successful season for the Hogs,
+      ending with a Cottonbowl victory"
+    - win
+    - '2021-06-24 17:48:14.836051'
+    - '2021-06-24 17:50:56.436689'
+  - - 6
+    - 2
+    - https://www.youtube.com/embed/BoEe5RZ0qcQ
+    - "#12 Arkansas travels to Jordan-Hare for a piece of eventual National Champion
+      Auburn and Heisman Trophy winner Cam Newton. Arkansas gave Auburn a big scare,
+      holding a fourth quarter lead thanks to brilliant quarterback play from Tyler
+      Wilson who replaced injured Ryan Mallet. At a pivotal moment tailback Broderick
+      Green fumbled and Auburn scooped and scored. With momentum entirely on Auburn's
+      side Newton's tough running sealed the loss for Arkansas."
+    - Win
+    - '2021-06-28 02:39:24.667940'
+    - '2021-06-28 02:39:24.667940'
+  - - 7
+    - 6
+    - https://www.youtube.com/embed/ceq9hNScwuA
+    - 'Let''s go back to 1986, when Arkansas took down #7 Texas A&M in Little Rock.
+      It was a low scoring game (14-10 finish) with some late-game theatrics. A&M
+      drove deep into Arkansas territory late in the fourth quarter with the chance
+      to take the lead. The Razorback defense held tough and forced a turnover on
+      downs after 3 consecutive incompletions to seal the victory.'
+    - Win
+    - '2021-06-28 11:40:54.367679'
+    - '2021-06-28 11:40:54.367679'
+  - - 8
+    - 4
+    - https://www.youtube.com/embed/7yy2Y2kc2xk
+    - This one stung as Arkansas lost in a dogfight to Mississippi State in 2014.
+      Arkansas had the ball in the red zone three times in the fourth quarter and
+      did not come up with a single point.
+    - Win
+    - '2021-06-29 17:41:10.218028'
+    - '2021-06-29 17:41:10.218028'
+  - - 9
+    - 4
+    - https://www.youtube.com/embed/YYenH4yywrI
+    - 'Arkansas goes to Starkville in 2004 and comes out with the victory. Quarterback
+      Matt Jones was hobbled by a hamstring injury that limited his rushing ability
+      but was able to make up for that with 200+ passing yards. '
+    - Loss
+    - '2021-06-29 17:44:51.066579'
+    - '2021-06-29 17:44:51.066579'
+
+---
+mascots:
+  columns:
+  - id
+  - name
+  - origin_description
+  - cartoon_image_location
+  - real_life_image_location
+  - team_id
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - Aubie
+    - 
+    - "./wack-a-mole-images/aubie-crop.png"
+    - 
+    - 2
+    - '2021-06-14 22:29:38.217449'
+    - '2021-06-15 01:16:54.736549'
+  - - 2
+    - Big Al
+    - 
+    - "./wack-a-mole-images/big-al-crop.png"
+    - 
+    - 1
+    - '2021-06-15 01:07:39.395408'
+    - '2021-06-15 01:18:16.832789'
+  - - 3
+    - Mike the Tiger
+    - 
+    - "./wack-a-mole-images/mike-crop.png"
+    - 
+    - 3
+    - '2021-06-15 02:23:04.619036'
+    - '2021-06-15 02:24:37.440703'
+  - - 4
+    - Bully
+    - 
+    - "./wack-a-mole-images/msu-crop.png"
+    - 
+    - 4
+    - '2021-06-15 12:19:34.202216'
+    - '2021-06-15 12:19:34.202216'
+  - - 5
+    - Colonel Reb
+    - 
+    - "./wack-a-mole-images/reb-crop.png"
+    - 
+    - 5
+    - '2021-06-15 12:22:18.033472'
+    - '2021-06-15 12:22:18.033472'
+  - - 6
+    - Reveille
+    - 
+    - "./wack-a-mole-images/revillie-crop.png"
+    - 
+    - 6
+    - '2021-06-15 12:25:39.953968'
+    - '2021-06-15 12:25:39.953968'
+
+---
+teams:
+  columns:
+  - id
+  - school
+  - nickname
+  - shorthand_name
+  - real_life_record_vs_arkansas
+  - wins_in_game
+  - losses_in_game
+  - description
+  - created_at
+  - updated_at
+  - wack_a
+  records: 
+  - - 1
+    - University of Alabama
+    - Crimson Tide
+    - Alabama
+    - 20-7
+    - 0
+    - 0
+    - The Crimson Tide of Alabama are a fierce oppenent
+    - '2021-06-14 22:24:58.544115'
+    - '2021-06-21 03:05:07.673252'
+    - Bammer
+  - - 2
+    - Auburn University
+    - Tigers
+    - Auburn
+    - 18-11-1
+    - 0
+    - 0
+    - The Auburn Tigers are a great oppenent on the plains in Auburn, Alabama. It
+      is always a tough oppenent visiting Auburn.
+    - '2021-06-14 22:29:18.002597'
+    - '2021-06-21 03:06:00.985943'
+    - Barner
+  - - 3
+    - Louisiana State University
+    - Tigers
+    - LSU
+    - 
+    - 
+    - 
+    - 
+    - '2021-06-15 02:21:01.422783'
+    - '2021-06-21 03:06:39.980468'
+    - Tiger
+  - - 4
+    - Mississippi State University
+    - Bulldogs
+    - Mississippi State
+    - 
+    - 
+    - 
+    - 
+    - '2021-06-15 12:17:23.220995'
+    - '2021-06-21 03:07:45.261680'
+    - Bulldog
+  - - 5
+    - University of Mississippi
+    - Rebels
+    - Ole Miss
+    - 
+    - 
+    - 
+    - 
+    - '2021-06-15 12:21:02.711601'
+    - '2021-06-21 03:08:19.592094'
+    - Reb
+  - - 6
+    - Texas A & M University
+    - Aggies
+    - Texas A & M
+    - 
+    - 
+    - 
+    - 
+    - '2021-06-15 12:24:10.087097'
+    - '2021-06-21 03:08:50.300581'
+    - n-Aggie

@@ -396,7 +396,7 @@ function determineGameWinner() {
   if (gameDetails.scoreboard >= (gameDetails.totalRivals/2)) {
     gameDetails.winner = "Arkansas"
   } else {
-    gameDetails.winner = Team.all.find(team => team.id == gameDetails.gameMascot.team_id).shorthandName
+    gameDetails.winner = Team.all.find(team => team.id == gameDetails.gameMascot.teamId).shorthandName
   }
 }
 

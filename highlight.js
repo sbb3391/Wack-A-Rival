@@ -21,7 +21,6 @@ class Highlight {
   }
 
   pushHighlightToHighlightType() {
-    debugger;
     if (this.highlightType.toLowerCase() === "win") {
       gameDetails.winHighlights.push(this) 
     } else if (this.highlightType.toLowerCase() === "loss") {
@@ -31,7 +30,7 @@ class Highlight {
 
   static getHighlightMedia() {
     const highlightParams = {
-      team_id: Team.all.find(element => element.id == gameDetails.gameMascot.team_id).id,
+      team_id: Team.all.find(element => element.id == gameDetails.gameMascot.teamId).id,
     }
     
     const options = {

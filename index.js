@@ -15,8 +15,9 @@ let gameDetails = {
 
 window.addEventListener("DOMContentLoaded", () => {
   Team.getAllTeams();
-  document.querySelector("#highlight-button").addEventListener("click", Highlight.displayHighlights)
-  document.querySelector("#new-highlight-button").addEventListener("click", Highlight.addANewHighlight)
+  // document.querySelector("#highlight-button").addEventListener("click", Highlight.displayHighlights)
+  // document.querySelector("#new-highlight-button").addEventListener("click", Highlight.addANewHighlight)
+  document.querySelector("#choose-opponent").addEventListener("click", showOpponentInformation)
 })
 
 
@@ -464,5 +465,18 @@ function updateGameDetailDifficultySettings(difficulty) {
       gameDetails.randomTimeMax = 950;
       break;
   }
+
+}
+
+function showOpponentInformation() {
+  debugger;
+  const mainDiv = document.querySelector("#main-div")
+  mainDiv.classList.remove("hidden");
+
+  window.scrollTo({
+    top: mainDiv.scrollHeight,
+    left: 0,
+    behavior: 'smooth'
+  });
 }
 

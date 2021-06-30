@@ -9,8 +9,9 @@ class Team {
     this.winsInGame = team["wins_in_game"],
     this.lossesInGame = team["losses_in_game"],
     this.description = team["description"],
-    this.mascot = team["mascot"]
-    this.wackA = team["wack_a"]
+    this.mascot = team["mascot"],
+    this.wackA = team["wack_a"],
+    this.image = team["image"]
   }
 
   static getAllTeams() {
@@ -34,7 +35,8 @@ class Team {
       team["wins_in_game"] = teamData.attributes.wins_in_game,
       team["losses_in_game"] = teamData.attributes.losses_in_game,
       team["description"] = teamData.attributes.description,
-      team["wack_a"] = teamData.attributes.wack_a
+      team["wack_a"] = teamData.attributes.wack_a,
+      team["image"] = teamData.attributes.image
   
       let newTeam = new Team(team)
   
@@ -68,21 +70,21 @@ class Team {
     `
 
     const teamOverviewDiv = document.createElement("div")
-    teamOverviewDiv.className = "w-full h-full flex flex-col align-center space-y-4 pt-6"
+    teamOverviewDiv.className = "w-full h-full flex flex-col align-center space-y-8 pt-6"
     teamOverviewDiv.innerHTML = `
-      <h1 class="text-center">${this.shorthandName} ${this.nickname}</h1>
+      <h1 class="text-center text-4xl font-bold">${this.shorthandName} ${this.nickname}</h1>
       <div class="flex justify-center">
-        <img class="text-center self-center items-center content-center" src="./gifs/golden-boot.jpg" width="400">
+        <img class="text-center self-center items-center content-center" src="${this.image}" width="500">
       </div>
       <div>
-        <p class="text-center">Rivalry Overview<p><br>
-        <p class="text-center">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to 
+        <p class="text-center font-bold text-md">Rivalry Overview<p>
+        <p class="text-center">${this.description}</p> 
       </div>
       <div>
-        <p class="text-center">Fun Fact<p><br>
-        <p class="text-center">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to 
+        <p class="text-center font-bold text-md">Fun Fact<p>
+        <p class="text-center">${this.funFact}</p>
       </div>
-      <p class="text-center">Series Record: 100-18<p>
+      <p class="text-center"><span class="font-bold text-lg mr-4">Series Record:</span><span>${this.realLifeRecordVsArkansas}</span></p>
     `
   
     document.querySelector("div#mascot-selection").parentElement.insertAdjacentElement("beforeEnd", teamAndButton)

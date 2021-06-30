@@ -57,10 +57,9 @@ class Highlight {
 
   static parseAndDisplayAllHighlights(json) {
     const teamDivs = Array.from(document.querySelector("div#highlight-teams").children)
-    debugger;
     json.data.forEach(function(element) {
       const divForThisHighlight = teamDivs.find(div => div.dataset.teamId == element.relationships.team.data.id)
-      const team = Team.all.find(team => team.id === divForThisHighlight.dataset.teamId)
+      const team = Team.all.find(team => team.id == divForThisHighlight.dataset.teamId)
       const ul = divForThisHighlight.firstElementChild
       const newLi = document.createElement("li");
       newLi.innerText = `${team.shorthandName} ${element.attributes.highlight_type} -- DATE`

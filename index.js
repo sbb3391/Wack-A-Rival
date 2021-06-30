@@ -17,6 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
   Team.getAllTeams();
   // document.querySelector("#highlight-button").addEventListener("click", Highlight.displayHighlights)
   // document.querySelector("#new-highlight-button").addEventListener("click", Highlight.addANewHighlight)
+  determineIfLoggedIn();
   document.querySelector("#choose-opponent").addEventListener("click", showOpponentInformation)
 })
 
@@ -404,25 +405,38 @@ function determineGameWinner() {
 function displayGameSettings() {
   const newDiv = document.createElement("div")
 
-  newDiv.className = "flex flex-col space-y-2 w-1/3 mx-auto justify-center mt-8 border-black border-2 rounded-md pt-2"
+  newDiv.className = "flex flex-col space-y-2 w-5/6 h-1/4 mx-auto justify-center mt-8 border-black border-2 rounded-md pt-2"
   newDiv.id = "game-settings"
   newDiv.innerHTML = `
-    <h1 class="text-center">Difficulty Level:</h1>
-    <div id="radio-div" class="flex flex-col justify-center place-items-center space-y-1 p-3">
+    <h1 class="text-center italic">Difficulty Level:</h1>
+    <div id="radio-div" class="flex justify-around place-items-center mb-2">
       <div>
         <input type="radio" name="difficulty-level" data-difficulty="1"><label>Walk On</label>
       </div>
       <div>
         <input type="radio" name="difficulty-level" data-difficulty="2"><label>Starter</label>
       </div>
+    </div>
+    <div class="flex justify-around place-items-center space-y-1">
       <div>
         <input type="radio" name="difficulty-level" data-difficulty="3"><label>All Conference</label>
       </div>
       <div>
         <input type="radio" name="difficulty-level" data-difficulty="4"><label>All American</label>
       </div>
-      <div>
-        <button class="bg-blue-400 text-white w-48 h-6 border rounded-md" id="go-button">Go</button>
+    </div>
+    <div class="flex space-x-1 w-full justify-around" id="highlight-selection-options">
+      <div class="flex flex-col justify-center w-5/12">
+        <label class="text-center italic">Win Highlight<label>
+        <select id="win-highlight" class="border-black border-2 rounded-md bg-gray-200 w-full text-md">
+          <option value="random" selected>Random</option>
+        </select>
+      </div>
+      <div class="flex flex-col justify-center w-5/12">
+        <label class="text-center italic">Loss Highlight</label>
+        <select id="loss-highlight" class="border-black border-2 rounded-md bg-gray-200 w-full text-md">
+          <option value="random" selected>Random</option>
+        </select>
       </div>
     </div>
   `
@@ -432,14 +446,17 @@ function displayGameSettings() {
   const goBtn = document.querySelector("#go-button");
   const mascot = Mascot.all.find(mascot => mascot.name == document.querySelector("#mascot-description").innerText)
 
-  goBtn.addEventListener("click", function() {
-    const selectedDifficulty = document.querySelector("#radio-div").querySelector("input:checked").dataset.difficulty;
-    updateGameDetailDifficultySettings(selectedDifficulty);
-    countDownToStartGame(mascot);
-    setTimeout(function() {
-      newDiv.remove();
-    }, 1000);
-  })
+  const chooseRadio = document.querySelector("#game-settings").querySelector("input[value='choose']")
+  chooseRadio.addEventListener("click", showHighlightSelectionOptions)
+
+//   goBtn.addEventListener("click", function() {
+//     const selectedDifficulty = document.querySelector("#radio-div").querySelector("input:checked").dataset.difficulty;
+//     updateGameDetailDifficultySettings(selectedDifficulty);
+//     countDownToStartGame(mascot);
+//     setTimeout(function() {
+//       newDiv.remove();
+//     }, 1000);
+//   })
 }
 
 function updateGameDetailDifficultySettings(difficulty) {
@@ -469,7 +486,6 @@ function updateGameDetailDifficultySettings(difficulty) {
 }
 
 function showOpponentInformation() {
-  debugger;
   const mainDiv = document.querySelector("#main-div")
   mainDiv.classList.remove("hidden");
 
@@ -478,5 +494,30 @@ function showOpponentInformation() {
     left: 0,
     behavior: 'smooth'
   });
+}
+
+function determineIfLoggedIn() {
+
+}
+
+function showHighlightSelectionOptions() {
+  const highlightSelectionOptions = document.querySelector("div#highlight-selection-options")
+
+  const newDiv = document.createElement("div")
+
+  newDiv.id = "choose-highlight"
+  newDiv.className = "flex space-x-1 w-full h-1/6 justify-around"
+  newDiv.innerHTML = `
+    <div>
+      <label>Win Highlight<label>
+      <select id="win-highlight" class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md"></select>
+    </div>
+    <div>
+      <label>Loss Highlight</label>
+      <select id="win-highlight" class="border-black border-2 mx-4 rounded-md bg-gray-200 w-11/12 text-md"></select>
+    </div>
+  `
+
+  highlightSelectionOptions.insertAdjacentElement("afterend", newDiv);
 }
 

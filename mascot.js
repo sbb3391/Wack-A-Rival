@@ -34,8 +34,8 @@ class Mascot {
     <div id="current-mascot" class="relative transition duration-500 cursor-pointer flex w-full h-5/6 items-center justify-center text-center">
     
     </div>
-    <a id="previous" class="cursor-pointer absolute top-1/2 p-4 w-auto left-0 text-2xl">&#10094;</a>
-    <a id="next" class="cursor-pointer absolute top-1/2 p-4 w-auto right-0 text-2xl">&#10095;</a>
+    <a id="previous" class="cursor-pointer absolute top-1/2 p-4 w-auto left-0 text-2xl select-none">&#10094;</a>
+    <a id="next" class="cursor-pointer absolute top-1/2 p-4 w-auto right-0 text-2xl select-none">&#10095;</a>
     `
   
     let currentMascot = Mascot.all[0];

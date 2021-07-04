@@ -405,13 +405,13 @@ function determineGameWinner() {
 function displayGameSettings() {
   const newDiv = document.createElement("div")
 
-  newDiv.className = "flex flex-col space-y-2 w-5/6 h-1/4 mx-auto justify-center mt-8 border-black border-2 rounded-md pt-2"
+  newDiv.className = "flex flex-col space-y-2 w-5/6 h-1/3 mx-auto justify-around border-black border-2 rounded-md"
   newDiv.id = "game-settings"
   newDiv.innerHTML = `
     <h1 class="text-center italic">Difficulty Level:</h1>
     <div id="radio-div" class="flex justify-around place-items-center mb-2">
       <div>
-        <input type="radio" name="difficulty-level" data-difficulty="1"><label>Walk On</label>
+        <input type="radio" name="difficulty-level" data-difficulty="1" checked><label>Walk On</label>
       </div>
       <div>
         <input type="radio" name="difficulty-level" data-difficulty="2"><label>Starter</label>
@@ -439,24 +439,28 @@ function displayGameSettings() {
         </select>
       </div>
     </div>
+    <div class="self-center">
+      <button class="self-center bg-blue-400 text-white w-48 h-8 border rounded-md" id="go-button">Go</button>
+    </div>
   `
 
-  document.querySelector("#team-and-button").parentElement.appendChild(newDiv);
+  document.querySelector("#team-and-button").parentElement.insertAdjacentElement("afterend", newDiv);
   
   const goBtn = document.querySelector("#go-button");
   const mascot = Mascot.all.find(mascot => mascot.name == document.querySelector("#mascot-description").innerText)
 
-  const chooseRadio = document.querySelector("#game-settings").querySelector("input[value='choose']")
-  chooseRadio.addEventListener("click", showHighlightSelectionOptions)
 
-//   goBtn.addEventListener("click", function() {
-//     const selectedDifficulty = document.querySelector("#radio-div").querySelector("input:checked").dataset.difficulty;
-//     updateGameDetailDifficultySettings(selectedDifficulty);
-//     countDownToStartGame(mascot);
-//     setTimeout(function() {
-//       newDiv.remove();
-//     }, 1000);
-//   })
+  // const chooseRadio = document.querySelector("#game-settings").querySelector("input[value='choose']")
+  // chooseRadio.addEventListener("click", showHighlightSelectionOptions)
+
+  goBtn.addEventListener("click", function() {
+    const selectedDifficulty = document.querySelector("#radio-div").querySelector("input:checked").dataset.difficulty;
+    updateGameDetailDifficultySettings(selectedDifficulty);
+    countDownToStartGame(mascot);
+    setTimeout(function() {
+      newDiv.remove();
+    }, 1000);
+  })
 }
 
 function updateGameDetailDifficultySettings(difficulty) {

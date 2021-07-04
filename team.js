@@ -59,14 +59,7 @@ class Team {
     teamAndButton.id = "team-and-button"
     teamAndButton.className = "w-full"
     teamAndButton.innerHTML = `
-      <div class="flex flex-col justify-center space-y-2">
-        <h1 class="text-center text-3xl">${this.school}</h1>
-        <div class="self-center">
-          <button id="wack-a-button" class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.wackA}</button>
-        </div>
-      </div>
-      <div>
-      </div>
+      <button id="wack-a-button" class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.wackA}</button>
     `
 
     const teamOverviewDiv = document.createElement("div")
@@ -87,7 +80,7 @@ class Team {
       <p class="text-center"><span class="font-bold text-lg mr-4">Series Record:</span><span>${this.realLifeRecordVsArkansas}</span></p>
     `
   
-    document.querySelector("div#mascot-selection").parentElement.insertAdjacentElement("beforeEnd", teamAndButton)
+    document.querySelector("div#mascot-selection").insertAdjacentElement("beforeEnd", teamAndButton)
     document.querySelector("div#main-div").firstElementChild.appendChild(teamOverviewDiv);
   
     document.querySelector("#wack-a-button").addEventListener("click", () => {

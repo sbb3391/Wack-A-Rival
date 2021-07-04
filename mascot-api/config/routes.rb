@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :users
   root to: "sessions#index"
   resources :sessions
   resources :mascots

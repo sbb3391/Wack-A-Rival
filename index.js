@@ -568,12 +568,40 @@ function launchLoginForm() {
   document.querySelector("div#form-background-div").appendChild(loginDiv); 
   document.querySelector("div#landing-div").className += ' filter blur-md'
   document.querySelector("div#form-background-div").classList.remove("hidden")
+
+  document.querySelector("form#login-form").addEventListener("submit", submitLoginForm)
 }
 
 function createLoginDiv() {
   const loginDiv = document.createElement("div");
   loginDiv.className = "w-1/3 h-2/3 flex flex-col bg-gray-200 space-y-3 relative"
   return loginDiv
+}
+
+function submitLoginForm() {
+  const data = {
+    user: {
+      username: document.querySelector("input#username").value,
+      email: document.querySelector("input#email").value,
+      password: document.querySelector("input#password").value,
+      password_confirmation: document.querySelector("input#password-confirmation")
+    }
+  }
+  fetch('http://localhost:3000/login', {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    console.log(error)
+  });
 }
 
 function showHighlightSelectionOptions() {

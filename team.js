@@ -50,17 +50,13 @@ class Team {
 
   showTeamAndMascotDetails() {
     // remove teamDetails if they exist
+    removeGameSettings();
     removeTeamDetails();
   
     const mascotId = document.querySelector(".mascot-image").dataset.mascotId
     const mascotObject = Mascot.all.find( element => { return this.id == mascotId })
     
-    const teamAndButton = document.createElement("div")
-    teamAndButton.id = "team-and-button"
-    teamAndButton.className = "w-full"
-    teamAndButton.innerHTML = `
-      <button id="wack-a-button" class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${this.wackA}</button>
-    `
+    document.querySelector("#wack-a-button").innerText = `Whack-a-${this.wackA}`
 
     const teamOverviewDiv = document.createElement("div")
     teamOverviewDiv.className = "w-full h-full flex flex-col align-center space-y-8 pt-6"
@@ -80,14 +76,7 @@ class Team {
       <p class="text-center"><span class="font-bold text-lg mr-4">Series Record:</span><span>${this.realLifeRecordVsArkansas}</span></p>
     `
   
-    document.querySelector("div#mascot-selection").insertAdjacentElement("beforeEnd", teamAndButton)
     document.querySelector("div#main-div").firstElementChild.appendChild(teamOverviewDiv);
-  
-    document.querySelector("#wack-a-button").addEventListener("click", () => {
-      event.preventDefault();
-      displayGameSettings();
-  
-    })
   }
     
 }

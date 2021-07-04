@@ -209,18 +209,14 @@ function createCountDownClockElement(initialValue) {
   return countDownClock;
 }
 
+  function removeGameSettings() {
+    const gameSettings = document.querySelector("div#game-settings")
+    gameSettings ? gameSettings.remove() : null
+  }
+
   function removeTeamDetails() {
-    const teamDetail = document.querySelector("div#team-detail")
-    if (teamDetail) {
-      while (teamDetail.lastElementChild) {
-        teamDetail.lastElementChild.remove();
-      }
-
-    }
-
-    if (document.querySelector("#team-and-button")) {
-      document.querySelector("#team-and-button").remove();
-    }
+    const teamDetail = document.querySelector("#team-detail");
+    teamDetail.firstElementChild ? teamDetail.firstElementChild.remove() : null
   }
 
   function createMascotCopy(mascot) {
@@ -444,11 +440,10 @@ function displayGameSettings() {
     </div>
   `
 
-  document.querySelector("#team-and-button").parentElement.insertAdjacentElement("afterend", newDiv);
+  document.querySelector("#mascot-selection").insertAdjacentElement("afterend", newDiv);
   
   const goBtn = document.querySelector("#go-button");
   const mascot = Mascot.all.find(mascot => mascot.name == document.querySelector("#mascot-description").innerText)
-
 
   // const chooseRadio = document.querySelector("#game-settings").querySelector("input[value='choose']")
   // chooseRadio.addEventListener("click", showHighlightSelectionOptions)
@@ -501,7 +496,84 @@ function showOpponentInformation() {
 }
 
 function determineIfLoggedIn() {
+  fetch("http://localhost:3000")
+  .then(resp => resp.json())
+  .then(function(json) {
+    if (json.user === "not logged in") {
+      forceUserLogin();
+    }
+  })
+}
 
+function forceUserLogin() {
+  const chooseOpponentParent = document.querySelector("#choose-opponent").parentElement;
+
+  const loginButton = chooseOpponentParent.firstElementChild.cloneNode(true);
+  loginButton.innerText = "Login"
+
+  chooseOpponentParent.firstElementChild.replaceWith(loginButton)
+
+  loginButton.addEventListener("click", launchLoginForm)
+}
+
+function launchLoginForm() {
+  const backgroundDiv = document.createElement("div");
+  const loginDiv = createLoginDiv();
+
+  backgroundDiv.id = "background-div"
+  backgroundDiv.className = "w-5/6 h-5/6 bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
+  loginDiv.id = "login-div"
+
+  loginDiv.innerHTML = `
+    <h1 class="w-3/4 text-center">Login Form</h1>
+    <form id="login-form">
+      <div class="flex flex-col space-y-7">
+        <div class="w-full flex flex-col ">
+          <label class="mx-4">Username</label>
+          <input type="text" id="username" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
+          </select>
+        </div>
+        <div class="w-full flex flex-col">
+          <label class="mx-4">Email</label>
+          <input type="text" id="email" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
+        </div>
+        <div class="w-full flex flex-col">
+          <label class="mx-4">Password</label>
+          <input type="password" id="password" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
+        </div>
+        <div class="w-full h-1/4 flex flex-col">
+          <label class="mx-4">Password Confirmation</label>
+          <input type="password" id="password-confirmation" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
+        </div>
+        <div class="flex place-items-center justify-center pb-5">
+          <input type="submit" value="Login" class="bg-blue-400 font-white w-36 h-10 rounded-md whitespace-normal">
+        </div> 
+      <div>
+    <form>
+  `
+
+    const newSpan = document.createElement("span");
+    newSpan.innerHTML = "&#88;"
+    newSpan.className = "absolute right-0 top-0 cursor-pointer pr-1"
+    loginDiv.insertAdjacentElement("afterbegin", newSpan)
+  
+  newSpan.addEventListener("click", function() {
+    loginDiv.remove()
+    backgroundDiv.remove();
+    document.querySelector("div#landing-div").classList.remove("filter", "blur-md");
+    document.querySelector("div#form-background-div").classList.add("hidden")
+  })
+
+  backgroundDiv.appendChild(loginDiv);
+  document.querySelector("div#form-background-div").appendChild(loginDiv); 
+  document.querySelector("div#landing-div").className += ' filter blur-md'
+  document.querySelector("div#form-background-div").classList.remove("hidden")
+}
+
+function createLoginDiv() {
+  const loginDiv = document.createElement("div");
+  loginDiv.className = "w-1/3 h-2/3 flex flex-col bg-gray-200 space-y-3 relative"
+  return loginDiv
 }
 
 function showHighlightSelectionOptions() {

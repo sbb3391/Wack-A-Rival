@@ -193,8 +193,6 @@ class Highlight {
       } 
     }
 
-    debugger;
-
     fetch('http://localhost:3000/highlights', {
       method: 'POST', 
       headers: {

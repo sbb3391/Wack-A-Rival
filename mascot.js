@@ -39,6 +39,9 @@ class Mascot {
     </div>
     <a id="previous" class="cursor-pointer absolute top-1/2 p-4 w-auto left-0 text-2xl select-none">&#10094;</a>
     <a id="next" class="cursor-pointer absolute top-1/2 p-4 w-auto right-0 text-2xl select-none">&#10095;</a>
+    <div class="self-center">
+      <button id="wack-a-button" class="bg-blue-400 text-white w-48 h-8 border rounded-md">Wack-a-${currentMascotTeam.wackA}</button>
+    </div>
     `
   
     const currentMascotImage = currentMascot.createMascotElement();
@@ -58,6 +61,11 @@ class Mascot {
     const thisTeam = Team.all.find(team => team.id == currentMascot.teamId);
     
     thisTeam.showTeamAndMascotDetails();
+
+    document.querySelector("#wack-a-button").addEventListener("click", () => {
+      event.preventDefault();
+      displayGameSettings();
+    })
   
     function previousMascot() { 
       currentMascot.showPreviousMascot() 
@@ -82,7 +90,7 @@ class Mascot {
     const aClone = a.cloneNode(true)
     a.parentElement.replaceChild(aClone, a)
 
-    removeTeamDetails();
+    removeGameSettings();
     hideGameScreen();
   
     if (Mascot.all.indexOf(this) == Mascot.all.length - 1) {
@@ -134,7 +142,7 @@ class Mascot {
     const aClone = a.cloneNode(true)
     a.parentElement.replaceChild(aClone, a)
     
-    removeTeamDetails();
+    removeGameSettings();
     hideGameScreen();
 
     const thisTeam = Team.all.find(team => team.id == this.teamId)

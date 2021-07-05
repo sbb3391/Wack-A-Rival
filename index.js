@@ -573,6 +573,7 @@ function launchLoginForm() {
 }
 
 function createLoginDiv() {
+  event.preventDefault();
   const loginDiv = document.createElement("div");
   loginDiv.className = "w-1/3 h-2/3 flex flex-col bg-gray-200 space-y-3 relative"
   return loginDiv
@@ -584,24 +585,26 @@ function submitLoginForm() {
       username: document.querySelector("input#username").value,
       email: document.querySelector("input#email").value,
       password: document.querySelector("input#password").value,
-      password_confirmation: document.querySelector("input#password-confirmation")
+      password_confirmation: document.querySelector("input#password-confirmation").value
     }
   }
-  fetch('http://localhost:3000/login', {
+
+  fetch('http://localhost:3000/users', {
     method: 'POST', 
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Success:', data);
-  })
+  .then(debugJson(json.json()))
   .catch((error) => {
     console.error('Error:', error);
     console.log(error)
   });
+}
+
+function debugJson(json) {
+  debugger;
 }
 
 function showHighlightSelectionOptions() {

@@ -200,7 +200,7 @@ class Highlight {
       },
       body: JSON.stringify(data),
     })
-    .then(response => response.json())
+    .then(function(res) { console.log(res.json()) })
     .then(data => {
       console.log('Success:', data);
     })
@@ -208,5 +208,5 @@ class Highlight {
       console.error('Error:', error);
       console.log(error)
     });
-      }
+  }
 }

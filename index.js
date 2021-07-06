@@ -28,8 +28,8 @@ let gameDetails = {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  // document.querySelector("#highlight-button").addEventListener("click", Highlight.displayHighlights)
-  // document.querySelector("#new-highlight-button").addEventListener("click", Highlight.addANewHighlight)
+  document.querySelector("#highlights-button").addEventListener("click", Highlight.displayHighlights)
+  document.querySelector("#new-highlight-button").addEventListener("click", Highlight.addANewHighlight)
   Team.getAllTeams();
   determineIfLoggedIn();
 })
@@ -462,7 +462,7 @@ function displayGameSettings() {
   // chooseRadio.addEventListener("click", showHighlightSelectionOptions)
 
   goBtn.addEventListener("click", function() {
-    const selectedDifficulty = document.querySelector("#radio-div").querySelector("input:checked").dataset.difficulty;
+    const selectedDifficulty = document.querySelector("#game-settings").querySelector("input:checked").dataset.difficulty;
     updateGameDetailDifficultySettings(selectedDifficulty);
     countDownToStartGame(mascot);
     setTimeout(function() {
@@ -521,6 +521,7 @@ function determineIfLoggedIn() {
     .then(resp => resp.json())
     .then(function(json) {
       showUserLoggedIn(json.data)
+      document.querySelector("#highlight-buttons-div").classList.remove("hidden")
       showChooseMascotButton()
     })
   } else {
@@ -540,6 +541,8 @@ function forceUserLogin() {
 }
 
 function launchLoginForm() {
+  document.querySelector("#new-user-div") ? removeNewUserForm() : null
+
   const backgroundDiv = document.createElement("div");
   const loginDiv = createLoginDiv();
 
@@ -564,7 +567,8 @@ function launchLoginForm() {
           <input type="submit" value="Login" class="bg-blue-400 font-white w-36 h-10 rounded-md whitespace-normal">
         </div> 
       <div>
-    <form>
+    <span class="underline text-blue-700 cursor-pointer" id="go-to-new-user">Don't have an account?</span>
+    
   `
 
     const newSpan = document.createElement("span");
@@ -582,34 +586,36 @@ function launchLoginForm() {
   document.querySelector("div#form-background-div").classList.remove("hidden")
 
   document.querySelector("form#login-form").addEventListener("submit", submitLoginForm)
+  document.querySelector("#go-to-new-user").addEventListener("click", launchNewUserForm)
 }
 
 function launchNewUserForm() {
+  removeLoginForm();
   const backgroundDiv = document.createElement("div");
   const loginDiv = createLoginDiv();
 
   backgroundDiv.id = "background-div"
   backgroundDiv.className = "w-5/6 h-auto bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
-  loginDiv.id = "login-div"
+  loginDiv.id = "new-user-div"
 
   loginDiv.innerHTML = `
-    <h1 class="w-3/4 text-center">Login Form</h1>
-    <form id="login-form">
-      <div class="flex flex-col space-y-7">
-        <div class="w-full flex flex-col ">
+    <h1 class="w-3/4 text-center">New User Form</h1>
+    <form id="new-user-form" class="h-full">
+      <div class="flex flex-col h-full space-y-2">
+        <div class="w-full flex flex-col relative h-1/6">
           <label class="mx-4">Username</label>
           <input type="text" id="username" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
           </select>
         </div>
-        <div class="w-full flex flex-col">
+        <div class="w-full flex flex-col relative h-1/6">
           <label class="mx-4">Email</label>
           <input type="text" id="email" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
         </div>
-        <div class="w-full flex flex-col">
+        <div class="w-full flex flex-col relative h-1/6">
           <label class="mx-4">Password</label>
           <input type="password" id="password" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
         </div>
-        <div class="w-full h-1/4 flex flex-col">
+        <div class="w-full h-1/4 flex flex-col relative h-1/6">
           <label class="mx-4">Password Confirmation</label>
           <input type="password" id="password_confirmation" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
         </div>
@@ -618,6 +624,7 @@ function launchNewUserForm() {
         </div> 
       <div>
     <form>
+    <span class="underline text-blue-700 cursor-pointer" id="go-to-login">Already have login credentials?</span>
   `
 
     const newSpan = document.createElement("span");
@@ -634,7 +641,8 @@ function launchNewUserForm() {
   document.querySelector("div#landing-div").className += ' filter blur-md'
   document.querySelector("div#form-background-div").classList.remove("hidden")
 
-  document.querySelector("form#login-form").addEventListener("submit", submitLoginForm)
+  document.querySelector("form#new-user-form").addEventListener("submit", submitNewUserForm)
+  document.querySelector("#go-to-login").addEventListener("click", launchLoginForm)
 }
 
 function createLoginDiv() {
@@ -699,13 +707,34 @@ function submitNewUserForm() {
     headers: {
       'Content-Type': 'application/json',
     },
-    cache: 'no-cache',
-    credentials: 'include',
     body: JSON.stringify(data),
-    origin: true
   })
   .then(resp => resp.json())
-  .then(json => onSuccessfulLogin(json))
+  .then(function(json) {
+    if (json.data) {
+
+    } else {
+      const keys = Object.keys(json)
+      let userForm = document.querySelector("#new-user-form")
+
+      userForm.querySelectorAll("input").forEach( input => {
+        if (input.type === "text" || input.type === "password") {
+          input.classList.replace("border-red-700", "border-black");
+          input.parentElement.querySelector("span") ? input.parentElement.querySelector("span").remove() : null
+
+          if (keys.includes(input.id)) {
+            let message = json[`${input.id}`]
+
+            input.classList.replace("border-black", "border-red-700")
+            input.value = ""
+            input.parentElement.innerHTML += `
+              <span class="mx-4 absolute bottom-0 text-sm">${message}</span>
+            `
+          }
+        }
+      })
+    }
+  })
   .catch((error) => {
     console.error('Error:', error);
     console.log(error)
@@ -715,6 +744,7 @@ function submitNewUserForm() {
 function onSuccessfulLogin(json) {
     removeLoginForm();
     showUserLoggedIn(json.user.data);
+    document.querySelector("#highlight-buttons-div").classList.remove("hidden")
     showChooseMascotButton();
 }
 
@@ -756,6 +786,12 @@ function removeLoginForm() {
   document.querySelector("div#form-background-div").classList.add("hidden")
 }
 
+function removeNewUserForm() {
+  document.querySelector("#new-user-div").remove()
+  document.querySelector("div#landing-div").classList.remove("filter", "blur-md");
+  document.querySelector("div#form-background-div").classList.add("hidden")
+}
+
 function showUserLoggedIn(userObject) {
   const newDiv = document.createElement("div")
   newDiv.id = "current-user-info"
@@ -774,6 +810,12 @@ function showUserLoggedIn(userObject) {
 
 function logout() {
   localStorage.removeItem('token');
+  document.querySelector("div#current-user-info").remove();
+  document.querySelector("#highlight-buttons-div").classList.add("hidden")
   determineIfLoggedIn()
+}
+
+function showHighlightOptions() {
+
 }
 

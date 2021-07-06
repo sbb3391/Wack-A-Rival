@@ -186,7 +186,7 @@ class Mascot {
     const image = document.createElement("img");
 
     image.src = this.cartoonImageLocation
-    image.setAttribute("width", "100px")
+    image.setAttribute("width", "120px")
     image.setAttribute("data-mascot-id", this.id)
     image.className = "mascot-image text-center"
   
@@ -211,6 +211,7 @@ class Mascot {
       
       const mascotImage = gameDetails.gameMascot.createMascotElement();
       mascotImage.className += " absolute bottom-0 transition duration-200 left-10"
+      mascotImage.setAttribute("width", "110px")
   
       randomMascotDiv.appendChild(mascotImage)
     

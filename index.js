@@ -511,7 +511,18 @@ function showOpponentInformation() {
 function determineIfLoggedIn() {
   const token = localStorage.token
   if (token) {
-    showChooseMascotButton()
+    fetch("http://localhost:3000/sessions/autologin", {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(resp => resp.json())
+    .then(function(json) {
+      showUserLoggedIn(json.data)
+      showChooseMascotButton()
+    })
   } else {
     forceUserLogin();
   }
@@ -703,7 +714,7 @@ function submitNewUserForm() {
 
 function onSuccessfulLogin(json) {
     removeLoginForm();
-    showUserLoggedIn(json.user.data.attributes.username);
+    showUserLoggedIn(json.user.data);
     showChooseMascotButton();
 }
 
@@ -745,12 +756,24 @@ function removeLoginForm() {
   document.querySelector("div#form-background-div").classList.add("hidden")
 }
 
-function showUserLoggedIn(username) {
-  const newSpan = document.createElement("span")
-  newSpan.id = "current-user-info"
-  newSpan.innerText = `Welcome, ${username}`
-  newSpan.className = "absolute right-0 top-0 mr-8 mt-4 font-bold text-2xl"
+function showUserLoggedIn(userObject) {
+  const newDiv = document.createElement("div")
+  newDiv.id = "current-user-info"
+  newDiv.innerHTML = `
+    <h1>Current User: ${userObject.attributes.username}</h1>
+    <div class="self-center">
+      <button class="self-center bg-blue-400 text-white w-24 h-8 border rounded-md" id="logout-button">logout</button>
+    </div>
+  `
+  newDiv.className = "absolute h-16 right-0 top-0 mr-8 mt-4 flex-col flex"
 
-  document.querySelector("div#landing-div").appendChild(newSpan)
+  document.querySelector("div#landing-div").appendChild(newDiv)
+
+  document.querySelector("button#logout-button").addEventListener("click", logout)
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  determineIfLoggedIn()
 }
 

@@ -14,14 +14,22 @@ class SessionsController < ApplicationController
         render json: {status: "error", message: "We don't find such an user according to your information,please try again."}
     end
   end
+
+  # def show
+  #   if session_user
+  #       render json: UserSerializer.new(user).serializable_hash
+  #   else
+  #       render json: {errors: "No User Logged In."}
+  #   end   
+  # end
                               
 
-  def auto_login
+  def autologin
     if session_user
-        render json: session_user, include: ['order','orders.dishes']
+      render json: UserSerializer.new(session_user).serializable_hash
     else
-        render json: {errors: "No User Logged In."}
-    end     
+      render json: {errors: "No User Logged In."}
+    end 
   end
 
   def index

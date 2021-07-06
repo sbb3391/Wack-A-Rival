@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :users
   root to: "sessions#index"
+  get '/sessions/autologin', to: 'sessions#autologin'
   resources :sessions
   resources :mascots
   resources :teams
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
     collection do 
       post :login
       post :logout
+      get :autologin
     end
 
     member do 

@@ -1,3 +1,17 @@
+// // configuring cors in npm
+// const express = require("express")
+// const cors = require("cors");
+// const app = express();
+
+// app.use(cors({
+//   origin : true,
+//   credentials: true // <= Accept credentials (cookies) sent by the client
+// }))
+
+// app.use("/api/whatever/the/endpoint", yourRouter);
+
+// // 
+
 const mascotImages = document.querySelector("template#mascot-images").content.children;
 let previousMascotBottom, previousMascotLeft, previousMascotDiv
 let gameDetails = {
@@ -495,16 +509,12 @@ function showOpponentInformation() {
 }
 
 function determineIfLoggedIn() {
-  fetch("http://localhost:3000")
-  .then(resp => resp.json())
-  .then(function(json) {
-    if (json.user === "not logged in") {
-      forceUserLogin();
-    } else {
-      showChooseOpponentButton()
-    }
-    
-  })
+  const token = localStorage.token
+  if (token) {
+    showChooseMascotButton()
+  } else {
+    forceUserLogin();
+  }
 }
 
 function forceUserLogin() {
@@ -519,6 +529,51 @@ function forceUserLogin() {
 }
 
 function launchLoginForm() {
+  const backgroundDiv = document.createElement("div");
+  const loginDiv = createLoginDiv();
+
+  backgroundDiv.id = "background-div"
+  backgroundDiv.className = "w-5/6 h-auto bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
+  loginDiv.id = "login-div"
+
+  loginDiv.innerHTML = `
+    <h1 class="w-3/4 text-center">Login Form</h1>
+    <form id="login-form">
+      <div class="flex flex-col space-y-7">
+        <div class="w-full flex flex-col ">
+          <label class="mx-4">Username</label>
+          <input type="text" id="username" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
+          </select>
+        </div>
+        <div class="w-full flex flex-col">
+          <label class="mx-4">Password</label>
+          <input type="password" id="password" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
+        </div>
+        <div class="flex place-items-center justify-center pb-5">
+          <input type="submit" value="Login" class="bg-blue-400 font-white w-36 h-10 rounded-md whitespace-normal">
+        </div> 
+      <div>
+    <form>
+  `
+
+    const newSpan = document.createElement("span");
+    newSpan.innerHTML = "&#88;"
+    newSpan.className = "absolute right-0 top-0 cursor-pointer pr-1"
+    loginDiv.insertAdjacentElement("afterbegin", newSpan)
+  
+  newSpan.addEventListener("click", function() {
+    removeLoginForm();
+  })
+
+  backgroundDiv.appendChild(loginDiv);
+  document.querySelector("div#form-background-div").appendChild(loginDiv); 
+  document.querySelector("div#landing-div").className += ' filter blur-md'
+  document.querySelector("div#form-background-div").classList.remove("hidden")
+
+  document.querySelector("form#login-form").addEventListener("submit", submitLoginForm)
+}
+
+function launchNewUserForm() {
   const backgroundDiv = document.createElement("div");
   const loginDiv = createLoginDiv();
 
@@ -580,6 +635,45 @@ function createLoginDiv() {
 
 function submitLoginForm() {
   event.preventDefault();
+  const formDiv = event.target
+  const data = {
+    user: {
+      username: document.querySelector("input#username").value,
+      password: document.querySelector("input#password").value
+    }
+  }
+
+  fetch('http://localhost:3000/sessions/login', {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(resp => resp.json())
+  .then(function(json) {
+    if (json.status === "error") {
+      document.querySelector("span#login-error") ? document.querySelector("span#login-error").remove() : null 
+      const div = document.querySelector("#login-div")
+      const span = document.createElement("span")
+      span.id = "login-error"
+      span.innerText = json.message
+      div.appendChild(span)
+    } else {
+      localStorage.setItem("token", json.jwt)
+      onSuccessfulLogin(json);
+    }
+    
+
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    console.log(error)
+  });
+}
+
+function submitNewUserForm() {
+  event.preventDefault();
   const data = {
     user: {
       username: document.querySelector("input#username").value,
@@ -594,28 +688,23 @@ function submitLoginForm() {
     headers: {
       'Content-Type': 'application/json',
     },
+    cache: 'no-cache',
+    credentials: 'include',
     body: JSON.stringify(data),
+    origin: true
   })
   .then(resp => resp.json())
-  .then(json => getAllTeamsOrHandleError(json))
+  .then(json => onSuccessfulLogin(json))
   .catch((error) => {
     console.error('Error:', error);
     console.log(error)
   });
 }
 
-function getAllTeamsOrHandleError(json) {
-  if (json.data) {
+function onSuccessfulLogin(json) {
     removeLoginForm();
-    showUserLoggedIn(json.data.attributes.username);
+    showUserLoggedIn(json.user.data.attributes.username);
     showChooseMascotButton();
-  } else {
-    const errorObject = json
-    Object.keys(json).forEach(key => {
-      document.querySelector(`#${key}`).classList.replace("border-black", "border-red-800")
-      document.querySelector(`#${key}`).parentElement.innerHTML += `<span class="mx-4">${errorObject[key][0]}</span>`  
-    })
-  }
 }
 
 function showChooseMascotButton() {

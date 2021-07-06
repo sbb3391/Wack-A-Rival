@@ -1,7 +1,30 @@
 class SessionsController < ApplicationController
 
+  def login
+    user = User.find_by(username: params[:user][:username])
+    if user && user.authenticate(params[:user][:password])
+        payload = {user_id: user.id}
+        token = encode_token(payload)
+        user_json = UserSerializer.new(user).serializable_hash
+        user_json[:jwt] = token
+        render json: {
+            user: user_json,               
+            jwt: token}
+    else
+        render json: {status: "error", message: "We don't find such an user according to your information,please try again."}
+    end
+  end
+                              
+
+  def auto_login
+    if session_user
+        render json: session_user, include: ['order','orders.dishes']
+    else
+        render json: {errors: "No User Logged In."}
+    end     
+  end
+
   def index
-    byebug
     if session.include?(:user_id)
       render json: { user: "logged in"}
     else 
@@ -9,21 +32,21 @@ class SessionsController < ApplicationController
     end
   end
 
-  def login
-    @user = User.find_by_username(params[:session][:username])
+  # def login
+  #   @user = User.find_by_username(params[:session][:username])
 
-    user = @user.try(:authenticate, params[:session][:password])
+  #   user = @user.try(:authenticate, params[:session][:password])
 
-    #redirect back to create_user form if they did not authenticate
-    return redirect_to new_user_url unless user
+  #   #redirect back to create_user form if they did not authenticate
+  #   return redirect_to new_user_url unless user
   
-    session[:user_id] = user.id
+  #   session[:user_id] = user.id
 
-    redirect_to library_path(user.library)
-  end
+  #   redirect_to library_path(user.library)
+  # end
 
-  # logout
-  def logout
-    session.delete(:user_id)
-  end
+  # # logout
+  # def logout
+  #   session.delete(:user_id)
+  # end
 end

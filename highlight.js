@@ -184,6 +184,7 @@ class Highlight {
   static submitHighlight(event) {
     event.preventDefault;
 
+    debugger;
     const data = {
       highlight: {
         team_id: document.querySelector("#team-id").value,

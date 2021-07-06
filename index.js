@@ -14,11 +14,10 @@ let gameDetails = {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  Team.getAllTeams();
   // document.querySelector("#highlight-button").addEventListener("click", Highlight.displayHighlights)
   // document.querySelector("#new-highlight-button").addEventListener("click", Highlight.addANewHighlight)
+  Team.getAllTeams();
   determineIfLoggedIn();
-  document.querySelector("#choose-opponent").addEventListener("click", showOpponentInformation)
 })
 
 
@@ -501,7 +500,10 @@ function determineIfLoggedIn() {
   .then(function(json) {
     if (json.user === "not logged in") {
       forceUserLogin();
+    } else {
+      showChooseOpponentButton()
     }
+    
   })
 }
 
@@ -521,7 +523,7 @@ function launchLoginForm() {
   const loginDiv = createLoginDiv();
 
   backgroundDiv.id = "background-div"
-  backgroundDiv.className = "w-5/6 h-5/6 bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
+  backgroundDiv.className = "w-5/6 h-auto bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
   loginDiv.id = "login-div"
 
   loginDiv.innerHTML = `
@@ -543,7 +545,7 @@ function launchLoginForm() {
         </div>
         <div class="w-full h-1/4 flex flex-col">
           <label class="mx-4">Password Confirmation</label>
-          <input type="password" id="password-confirmation" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
+          <input type="password" id="password_confirmation" class="text-2xl border-black border-2 mx-4 h-10 rounded-md bg-gray-200 w-11/12 text-md">
         </div>
         <div class="flex place-items-center justify-center pb-5">
           <input type="submit" value="Login" class="bg-blue-400 font-white w-36 h-10 rounded-md whitespace-normal">
@@ -558,10 +560,7 @@ function launchLoginForm() {
     loginDiv.insertAdjacentElement("afterbegin", newSpan)
   
   newSpan.addEventListener("click", function() {
-    loginDiv.remove()
-    backgroundDiv.remove();
-    document.querySelector("div#landing-div").classList.remove("filter", "blur-md");
-    document.querySelector("div#form-background-div").classList.add("hidden")
+    removeLoginForm();
   })
 
   backgroundDiv.appendChild(loginDiv);
@@ -575,17 +574,18 @@ function launchLoginForm() {
 function createLoginDiv() {
   event.preventDefault();
   const loginDiv = document.createElement("div");
-  loginDiv.className = "w-1/3 h-2/3 flex flex-col bg-gray-200 space-y-3 relative"
+  loginDiv.className = "w-1/3 h-3/4 flex flex-col bg-gray-200 space-y-3 relative"
   return loginDiv
 }
 
 function submitLoginForm() {
+  event.preventDefault();
   const data = {
     user: {
       username: document.querySelector("input#username").value,
       email: document.querySelector("input#email").value,
       password: document.querySelector("input#password").value,
-      password_confirmation: document.querySelector("input#password-confirmation").value
+      password_confirmation: document.querySelector("input#password_confirmation").value
     }
   }
 
@@ -594,17 +594,39 @@ function submitLoginForm() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
-  .then(debugJson(json.json()))
+  .then(resp => resp.json())
+  .then(json => getAllTeamsOrHandleError(json))
   .catch((error) => {
     console.error('Error:', error);
     console.log(error)
   });
 }
 
-function debugJson(json) {
-  debugger;
+function getAllTeamsOrHandleError(json) {
+  if (json.data) {
+    removeLoginForm();
+    showUserLoggedIn(json.data.attributes.username);
+    showChooseMascotButton();
+  } else {
+    const errorObject = json
+    Object.keys(json).forEach(key => {
+      document.querySelector(`#${key}`).classList.replace("border-black", "border-red-800")
+      document.querySelector(`#${key}`).parentElement.innerHTML += `<span class="mx-4">${errorObject[key][0]}</span>`  
+    })
+  }
+}
+
+function showChooseMascotButton() {
+  const chooseOrLogin = document.querySelector("#choose-opponent-or-login-div");
+  const buttonClone = chooseOrLogin.firstElementChild.cloneNode(true)
+  buttonClone.id = "choose-opponent"
+  buttonClone.innerText = "Choose Opponent"
+
+  chooseOrLogin.firstElementChild.replaceWith(buttonClone);
+
+  document.querySelector("#choose-opponent").addEventListener("click", showOpponentInformation)
 }
 
 function showHighlightSelectionOptions() {
@@ -626,5 +648,20 @@ function showHighlightSelectionOptions() {
   `
 
   highlightSelectionOptions.insertAdjacentElement("afterend", newDiv);
+}
+
+function removeLoginForm() {
+  document.querySelector("#login-div").remove()
+  document.querySelector("div#landing-div").classList.remove("filter", "blur-md");
+  document.querySelector("div#form-background-div").classList.add("hidden")
+}
+
+function showUserLoggedIn(username) {
+  const newSpan = document.createElement("span")
+  newSpan.id = "current-user-info"
+  newSpan.innerText = `Welcome, ${username}`
+  newSpan.className = "absolute right-0 top-0 mr-8 mt-4 font-bold text-2xl"
+
+  document.querySelector("div#landing-div").appendChild(newSpan)
 }
 

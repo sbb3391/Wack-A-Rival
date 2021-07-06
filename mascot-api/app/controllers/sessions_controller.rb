@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   def index
-
+    byebug
     if session.include?(:user_id)
       render json: { user: "logged in"}
     else 

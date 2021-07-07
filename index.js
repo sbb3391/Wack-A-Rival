@@ -366,33 +366,41 @@ function displayHighlightDetails(json) {
   highlightDiv.className = "w-full h-full bg-gray-200 flex z-10 absolute justify-around"
   highlightDiv.id = "highlight-div"
   highlightDiv.innerHTML = `
-    <div class="w-1/2 h-full flex flex-col space-y-1">
+    <div class="w-1/4 h-full flex flex-col space-y-1">
       <div>DATE</div>
       <div class="w-full flex space-x-4">
-        <label class="w-32">Description:</label>
-        <textarea class="resize-none border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" rows="7">${highlight.description}</textarea>
+        <label class="w-24">Description:</label>
+        <textarea class="resize-none border-none bg-gray-200 w-5/6 focus:outline-none" disabled="true" rows="9">${highlight.description}</textarea>
       </div>
       <div class="w-full flex space-x-4">
-        <label class="w-32">Media URL:</label>
-        <textarea class="resize-none border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" rows="7">${highlight.mediaUrl}</textarea>
+        <label class="w-24">Media URL:</label>
+        <textarea class="resize-none border-none bg-gray-200 w-5/6 focus:outline-none" disabled="true" rows="9">${highlight.mediaUrl}</textarea>
       </div>
       <div class="w-full flex space-x-4">
-        <label class="w-32">Win/Loss:</label>
-        <input class="border-none bg-gray-200 w-11/12 focus:outline-none" disabled="true" value='${highlight.highlightType}'>
+        <label class="w-24">Win/Loss:</label>
+        <input class="border-none bg-gray-200 w-5/6 focus:outline-none" disabled="true" value='${highlight.highlightType}'>
       </div>
     </div>
-    <div class="w-1/2 flex justify-center place-items-center relative">
-      <span class="absolute pr-1 right-0 top-0 cursor-pointer">&#88;</span>
+    <div class="w-1/3 flex justify-center place-items-center relative">
       <div id="highlight-iframe">${highlight.mediaUrl}</div>
     </div>
+    <div class="w-1/4 flex flex-col mt-4 space-y-2">
+      <div class="w-full h-1/5 border-b-4 border-black rounded-sm">
+        <textarea class="resize-none border-black border-2 bg-gray-200 w-11/12 px-1 rounded-md placeholder-gray-500 placeholder-opacity-100 mx-4" placeholder="leave your comment..." rows="4"></textarea>
+      <div>
+    </div>
+    <span class="absolute right-0 top-0 cursor-pointer pr-3">&#88;</span>
   `
+
+  highlightDiv.style.marginLeft = "0px"
 
   highlightTeamsDiv.parentElement.appendChild(highlightDiv)
   const iframe = document.querySelector("div#highlight-iframe").firstElementChild
-  iframe.width = "600"
+  iframe.width = "550"
   iframe.height = "350"
 
-  iframe.parentElement.previousElementSibling.addEventListener("click", function() {
+  debugger;
+  iframe.parentElement.parentElement.parentElement.querySelector("span").addEventListener("click", function() {
     document.querySelector("div#highlight-div").remove();
   })
 }
@@ -725,7 +733,7 @@ function submitNewUserForm() {
 
           if (keys.includes(input.id)) {
             debugger;
-            let message = json[`${input.id}`][0]
+            let message = json[`${input.id}`]
 
             input.classList.replace("border-black", "border-red-700")
             input.value = ""

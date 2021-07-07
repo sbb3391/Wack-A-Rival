@@ -77,7 +77,7 @@ class Highlight {
     const highlightsDiv = createHighlightsDiv();
 
     backgroundDiv.id = "background-div"
-    backgroundDiv.className = "w-5/6 h-5/6 bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
+    backgroundDiv.className = "w-full h-5/6 bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
     highlightsDiv.id = "highlight-teams"
 
     // populate highlights div with each team
@@ -184,7 +184,6 @@ class Highlight {
   static submitHighlight(event) {
     event.preventDefault;
 
-    debugger;
     const data = {
       highlight: {
         team_id: document.querySelector("#team-id").value,

@@ -1,24 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Run the program with the following steps:
 
-Things you may want to cover:
+fork and clone the repo
+in the terminal go to location "./Wack-A-Rival-Javascript/mascot-api"
+run bundle install to load all gems
+run rails db:migrate
+got back to the root ("./Wack-A-Rival-Javascript")
+run 'explorer.exe index.html' (or open the index.html file however you choose)
+Wack Rivals -- Go Hogs! 
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

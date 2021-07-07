@@ -724,7 +724,8 @@ function submitNewUserForm() {
           input.parentElement.querySelector("span") ? input.parentElement.querySelector("span").remove() : null
 
           if (keys.includes(input.id)) {
-            let message = json[`${input.id}`]
+            debugger;
+            let message = json[`${input.id}`][0]
 
             input.classList.replace("border-black", "border-red-700")
             input.value = ""
@@ -815,9 +816,7 @@ function showUserLoggedIn(userObject) {
 
 function logout() {
   localStorage.removeItem('token');
-  document.querySelector("div#current-user-info").remove();
-  document.querySelector("#highlight-buttons-div").classList.add("hidden")
-  determineIfLoggedIn()
+  location = window.location
 }
 
 function showHighlightOptions() {

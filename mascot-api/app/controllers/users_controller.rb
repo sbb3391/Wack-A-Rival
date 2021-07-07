@@ -4,10 +4,14 @@ class UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
-      session[:user_id] = user.id
-      byebug
-
-      render json: UserSerializer.new(user).serializable_hash
+      payload = {user_id: user.id}
+      token = encode_token(payload)
+      user_json = UserSerializer.new(user).serializable_hash
+      user_json[:jwt] = token
+      render json: {
+        user: user_json,               
+        jwt: token
+      }
     else
       render json: user.errors
     end

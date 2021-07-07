@@ -711,8 +711,9 @@ function submitNewUserForm() {
   })
   .then(resp => resp.json())
   .then(function(json) {
-    if (json.data) {
-
+    if (json.user) {
+      localStorage.setItem("token", json.jwt)
+      onSuccessfulLogin(json);
     } else {
       const keys = Object.keys(json)
       let userForm = document.querySelector("#new-user-form")
@@ -742,7 +743,7 @@ function submitNewUserForm() {
 }
 
 function onSuccessfulLogin(json) {
-    removeLoginForm();
+    removeLoginOrNewUserForm();
     showUserLoggedIn(json.user.data);
     document.querySelector("#highlight-buttons-div").classList.remove("hidden")
     showChooseMascotButton();
@@ -757,6 +758,10 @@ function showChooseMascotButton() {
   chooseOrLogin.firstElementChild.replaceWith(buttonClone);
 
   document.querySelector("#choose-opponent").addEventListener("click", showOpponentInformation)
+}
+
+function removeLoginOrNewUserForm() {
+  document.querySelector("#login-div") ? removeLoginForm() : removeNewUserForm();
 }
 
 function showHighlightSelectionOptions() {

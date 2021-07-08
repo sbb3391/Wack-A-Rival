@@ -118,7 +118,9 @@ class Highlight {
     backgroundDiv.id = "background-div"
     backgroundDiv.className = "w-5/6 h-5/6 bg-opacity-0 flex justify-center align-center place-items-center space-x-8 relative"
     highlightsDiv.id = "new-highlight"
-    highlightsDiv.className += " space-y-3 overflow-auto"
+    highlightsDiv.className += " space-y-3 overflow-auto z-10"
+
+    backgroundDiv.appendChild(highlightsDiv);
 
     const newSpan = document.createElement("span")
     newSpan.innerHTML = "&#88;"
@@ -126,16 +128,11 @@ class Highlight {
     newSpan.className = "absolute right-0 top-0 cursor-pointer pr-1"
     highlightsDiv.insertAdjacentElement("afterbegin", newSpan)
     
-    backgroundDiv.appendChild(highlightsDiv);
     document.querySelector("div#form-background-div").appendChild(backgroundDiv); 
     document.querySelector("div#main-div").className += ' filter blur-md'
     document.querySelector("div#form-background-div").classList.remove("hidden")
-    
-    document.querySelector("#close-new-highlight-form").addEventListener("click", function() {
-      backgroundDiv.remove();
-      document.querySelector("div#main-div").classList.remove("filter", "blur-md");
-      document.querySelector("div#form-background-div").classList.add("hidden")
-    })
+
+    document.querySelector("#close-new-highlight-form").addEventListener("click", Highlight.closeNewHighlightForm)
 
     const teamNameWithId = Team.all.map(team => [team.shorthandName, team.id])
 
@@ -181,6 +178,12 @@ class Highlight {
 
   }
   
+  static closeNewHighlightForm() {
+    document.querySelector("#background-div").remove();
+    document.querySelector("div#main-div").classList.remove("filter", "blur-md");
+    document.querySelector("div#form-background-div").classList.add("hidden")
+  }
+
   static submitHighlight(event) {
     event.preventDefault;
 

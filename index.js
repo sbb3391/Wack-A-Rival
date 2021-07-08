@@ -398,8 +398,7 @@ function displayHighlightDetails(json) {
   const iframe = document.querySelector("div#highlight-iframe").firstElementChild
   iframe.width = "550"
   iframe.height = "350"
-
-  debugger;
+  
   iframe.parentElement.parentElement.parentElement.querySelector("span").addEventListener("click", function() {
     document.querySelector("div#highlight-div").remove();
   })

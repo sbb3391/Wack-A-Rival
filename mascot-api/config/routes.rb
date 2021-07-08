@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :comments
   resources :users
   root to: "sessions#index"
   get '/sessions/autologin', to: 'sessions#autologin'

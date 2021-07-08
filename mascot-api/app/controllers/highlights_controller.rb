@@ -15,8 +15,8 @@ class HighlightsController < ApplicationController
   def show
     highlight = Highlight.find_by_id(params[:id])
 
-    options =  {}
-    options[:include] = [:comments]
+    options =  { include: [:comments] }
+   
     
     render json: HighlightSerializer.new(highlight, options).serializable_hash
   end

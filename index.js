@@ -397,6 +397,8 @@ function displayHighlightDetails(json) {
           </div>
         <form>
       </div>
+      <div id="comments-div" class="w-full flex flex-col overflow-auto pl-3">
+      </div>
     </div>
     <span class="absolute right-0 top-0 cursor-pointer pr-3">&#88;</span>
   `
@@ -409,11 +411,26 @@ function displayHighlightDetails(json) {
   iframe.width = "550"
   iframe.height = "350"
 
+  // listener for X button to close out highlight window
   iframe.parentElement.parentElement.parentElement.querySelector("span").addEventListener("click", function() {
     document.querySelector("div#highlight-div").remove();
   })
 
-  
+  // adding comments
+  HighlightComment.getAllCommentsSortedNewestToOldest(json.included)
+
+  HighlightComment.all.forEach( comment => {
+    debugger;
+    let newCommentDiv = document.createElement("div")
+    newCommentDiv.dataset.userId = comment.userId
+    newCommentDiv.className = "w-3/4 border-b-2 border-black flex flex-col space-y-1 p-2"
+    newCommentDiv.innerHTML = `
+      <span class="text-xs">${comment.username} says...</span>
+      <p class="text-md">${comment.commentText}</p>
+    `
+
+    document.querySelector("div#comments-div").appendChild(newCommentDiv)
+  })
 }
 
 function createHighlightsDiv() {

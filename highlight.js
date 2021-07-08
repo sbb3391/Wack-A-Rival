@@ -10,9 +10,9 @@ class Highlight {
   static createHighlight(highlightData) {
     let highlight = {}
 
-    highlight["description"] = highlightData.attributes.description,
-    highlight["mediaUrl"] = highlightData.attributes.media_url,
-    highlight["highlightType"] = highlightData.attributes.highlight_type,
+    highlight["description"] = highlightData.attributes.description
+    highlight["mediaUrl"] = highlightData.attributes.media_url
+    highlight["highlightType"] = highlightData.attributes.highlight_type
     highlight["id"] = highlightData.id
     highlight["teamId"] = highlightData.relationships.team.data.id
 

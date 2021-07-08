@@ -384,10 +384,19 @@ function displayHighlightDetails(json) {
     <div class="w-1/3 flex justify-center place-items-center relative">
       <div id="highlight-iframe">${highlight.mediaUrl}</div>
     </div>
-    <div class="w-1/4 flex flex-col mt-4 space-y-2">
-      <div class="w-full h-1/5 border-b-4 border-black rounded-sm">
-        <textarea class="resize-none border-black border-2 bg-gray-200 w-11/12 px-1 rounded-md placeholder-gray-500 placeholder-opacity-100 mx-4" placeholder="leave your comment..." rows="4"></textarea>
-      <div>
+    <div class="w-1/4 flex flex-col">
+      <div class="h-1/3 w-full border-b-4 border-black rounded-sm">
+        <form>
+          <div class="w-full flex flex-col mt-4 space-y-2">
+            <div class="w-full h-1/4">
+              <textarea class="block mx-auto resize-none border-black border-2 bg-gray-200 w-11/12 px-1 rounded-md placeholder-gray-500 placeholder-opacity-100" placeholder="leave your comment..." rows="5"></textarea>
+            </div>
+            <div class="text-center">
+              <input type="submit" value="Add Comment" class="bg-blue-400 font-white text-sm w-36 h-6 rounded-md whitespace-normal">
+            </div>
+          </div>
+        <form>
+      </div>
     </div>
     <span class="absolute right-0 top-0 cursor-pointer pr-3">&#88;</span>
   `
@@ -398,7 +407,7 @@ function displayHighlightDetails(json) {
   const iframe = document.querySelector("div#highlight-iframe").firstElementChild
   iframe.width = "550"
   iframe.height = "350"
-  
+
   iframe.parentElement.parentElement.parentElement.querySelector("span").addEventListener("click", function() {
     document.querySelector("div#highlight-div").remove();
   })

@@ -403,6 +403,7 @@ function displayHighlightDetails(json) {
 
   highlightDiv.style.marginLeft = "0px"
 
+
   highlightTeamsDiv.parentElement.appendChild(highlightDiv)
   const iframe = document.querySelector("div#highlight-iframe").firstElementChild
   iframe.width = "550"
@@ -411,6 +412,8 @@ function displayHighlightDetails(json) {
   iframe.parentElement.parentElement.parentElement.querySelector("span").addEventListener("click", function() {
     document.querySelector("div#highlight-div").remove();
   })
+
+  
 }
 
 function createHighlightsDiv() {

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :user_highlights
   resources :comments
   resources :users
   root to: "sessions#index"

@@ -4,5 +4,6 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates_confirmation_of :password
   has_many :comments
+  has_many :user_highlights
   has_many :highlights
 end

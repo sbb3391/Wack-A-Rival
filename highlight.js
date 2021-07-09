@@ -64,11 +64,16 @@ class Highlight {
       const newLi = document.createElement("li");
       newLi.innerText = `${team.shorthandName} ${element.attributes.highlight_type} -- DATE`
       newLi.dataset.highlightId = element.id
-      newLi.className = "pl-8 text-sm cursor-pointer"
+      newLi.className = "all-highlights pl-8 text-sm cursor-pointer all-highlights"
+      newLi.dataset.highlightId = element.id
 
       ul.appendChild(newLi)
 
+      UserHighlight.disableHighlightsThatAreNotUserHighlights();
+
       newLi.addEventListener("click", showHighlightDetails)
+
+
     })
   }
 

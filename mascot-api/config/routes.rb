@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :user_highlights
   resources :comments
-  resources :users
+  resources :users do 
+    resources :user_highlights
+  end
+
   root to: "sessions#index"
   get '/sessions/autologin', to: 'sessions#autologin'
   resources :sessions

@@ -837,6 +837,7 @@ function removeNewUserForm() {
 function showUserLoggedIn(userObject) {
   const newDiv = document.createElement("div")
   newDiv.id = "current-user-info"
+  newDiv.dataset.currentUser = userObject.id
   newDiv.innerHTML = `
     <h1>Current User: ${userObject.attributes.username}</h1>
     <div class="self-center">

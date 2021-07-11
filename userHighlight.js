@@ -11,7 +11,7 @@ class UserHighlight {
   // this happens right after a new Highlight is created
     const data = {
       user_highlight: {
-        user_id: json.userId,
+        user_id: json.user_id || json.userId,
         highlight_id: json.id
       } 
     }

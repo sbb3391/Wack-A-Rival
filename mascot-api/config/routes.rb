@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :comments
   resources :users do 
     resources :user_highlights
   end
@@ -11,6 +10,7 @@ Rails.application.routes.draw do
   resources :mascots
   resources :teams
   resources :highlights do 
+    resources :comments
     collection do
       post :team_highlights
     end

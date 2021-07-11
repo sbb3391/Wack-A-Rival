@@ -268,6 +268,10 @@ function createCountDownClockElement(initialValue) {
       }
     }
     const highlight = winOrLossHighlight();
+    
+    highlight["userId"] = document.querySelector("#current-user-info").dataset.currentUser
+    debugger;
+    UserHighlight.createNewUserHighlight(highlight)
 
     while (gameScreen.lastElementChild) {
       gameScreen.lastElementChild.remove();
@@ -386,7 +390,7 @@ function displayHighlightDetails(json) {
     </div>
     <div class="w-1/4 flex flex-col">
       <div class="h-1/3 w-full border-b-4 border-black rounded-sm">
-        <form>
+        <form id="new-comment-form" data-highlight-id="${highlight.id}">
           <div class="w-full flex flex-col mt-4 space-y-2">
             <div class="w-full h-1/4">
               <textarea class="block mx-auto resize-none border-black border-2 bg-gray-200 w-11/12 px-1 rounded-md placeholder-gray-500 placeholder-opacity-100" placeholder="leave your comment..." rows="5"></textarea>
@@ -414,28 +418,29 @@ function displayHighlightDetails(json) {
   // listener for X button to close out highlight window
   iframe.parentElement.parentElement.parentElement.querySelector("span").addEventListener("click", function() {
     document.querySelector("div#highlight-div").remove();
+    HighlightComment.all = []
   })
 
   // adding comments
   HighlightComment.getAllCommentsSortedNewestToOldest(json.included)
 
-  HighlightComment.all.forEach( comment => {
-    debugger;
-    let newCommentDiv = document.createElement("div")
-    newCommentDiv.dataset.userId = comment.userId
-    newCommentDiv.className = "w-3/4 border-b-2 border-black flex flex-col space-y-1 p-2"
-    newCommentDiv.innerHTML = `
-      <span class="text-xs">${comment.username} says...</span>
-      <p class="text-md">${comment.commentText}</p>
-    `
+  HighlightComment.all.forEach( comment => HighlightComment.appendNewComment("afterbegin", comment))
 
-    document.querySelector("div#comments-div").appendChild(newCommentDiv)
+  // listener for new comment
+  document.querySelector("form#new-comment-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const highlightId = event.target.dataset.highlightId
+    const userId = document.querySelector("div#current-user-info").dataset.currentUser
+    const commentText = event.target.querySelector("textarea").value
+
+    HighlightComment.createNewComment(highlightId, userId, commentText)
   })
 }
 
 function createHighlightsDiv() {
   const highlightsDiv = document.createElement("div");
-  highlightsDiv.className = "w-5/12 h-5/6 flex flex-col bg-gray-200 space-y-3 relative"
+  highlightsDiv.className = "w-5/12 h-5/6 flex flex-col bg-gray-200 space-y-3 relative overflow-auto"
   return highlightsDiv
 }
 
@@ -760,7 +765,6 @@ function submitNewUserForm() {
           input.parentElement.querySelector("span") ? input.parentElement.querySelector("span").remove() : null
 
           if (keys.includes(input.id)) {
-            debugger;
             let message = json[`${input.id}`]
 
             input.classList.replace("border-black", "border-red-700")

@@ -29,8 +29,11 @@ class Highlight {
   }
 
   static getHighlightMedia() {
+    
     const highlightParams = {
       team_id: Team.all.find(element => element.id == gameDetails.gameMascot.teamId).id,
+      user_id: document.querySelector("#current-user-info").dataset.currentUser,
+      highlight_type: gameDetails.winner === "Arkansas" ? "Loss" : "Win"
     }
     
     const options = {
@@ -64,7 +67,7 @@ class Highlight {
       const newLi = document.createElement("li");
       newLi.innerText = `${team.shorthandName} ${element.attributes.highlight_type} -- DATE`
       newLi.dataset.highlightId = element.id
-      newLi.className = "all-highlights pl-8 text-sm cursor-pointer all-highlights"
+      newLi.className = "all-highlights pl-8 text-sm text-black cursor-pointer all-highlights hover:underline"
       newLi.dataset.highlightId = element.id
 
       ul.appendChild(newLi)
@@ -104,6 +107,7 @@ class Highlight {
       backgroundDiv.remove();
       document.querySelector("div#main-div").classList.remove("filter", "blur-md");
       document.querySelector("div#form-background-div").classList.add("hidden")
+
     })
 
     fetch("http://localhost:3000/highlights")
@@ -190,14 +194,14 @@ class Highlight {
   }
 
   static submitHighlight(event) {
-    event.preventDefault;
-
+    event.preventDefault();
     const data = {
       highlight: {
         team_id: document.querySelector("#team-id").value,
         description: document.querySelector("#description").value,
         media_url: document.querySelector("#media-url").value,
-        highlight_type: document.querySelector("#highlight-type").value
+        highlight_type: document.querySelector("#highlight-type").value,
+        user_id: document.querySelector("#current-user-info").dataset.currentUser
       } 
     }
 
@@ -206,15 +210,9 @@ class Highlight {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-    .then(function(res) { console.log(res.json()) })
-    .then(data => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      console.log(error)
-    });
+    .then(resp => resp.json())
+    .then( json => UserHighlight.createNewUserHighlight(json))
   }
 }

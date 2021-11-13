@@ -81,6 +81,7 @@ class Highlight {
   }
 
   static displayHighlights() {
+    debugger;
     const backgroundDiv = document.createElement("div");
     const highlightsDiv = createHighlightsDiv();
 

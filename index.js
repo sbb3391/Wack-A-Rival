@@ -1,16 +1,8 @@
-// // configuring cors in npm
-// const express = require("express")
-// const cors = require("cors");
-// const app = express();
-
-// app.use(cors({
-//   origin : true,
-//   credentials: true // <= Accept credentials (cookies) sent by the client
-// }))
-
-// app.use("/api/whatever/the/endpoint", yourRouter);
-
-// // 
+// import Highlight from './highlight.js'
+// import HighlightComment from './highlightcomment.js'
+// import Mascot from './mascot.js'
+// import Team from './team.js'
+// import UserHighlight from './userHighlight.js'
 
 const mascotImages = document.querySelector("template#mascot-images").content.children;
 let previousMascotBottom, previousMascotLeft, previousMascotDiv
@@ -221,7 +213,6 @@ function createCountDownClockElement(initialValue) {
   `
   return countDownClock;
 }
-
   function removeGameSettings() {
     const gameSettings = document.querySelector("div#game-settings")
     gameSettings ? gameSettings.remove() : null
@@ -270,7 +261,6 @@ function createCountDownClockElement(initialValue) {
     const highlight = winOrLossHighlight();
     
     highlight["userId"] = document.querySelector("#current-user-info").dataset.currentUser
-    debugger;
     UserHighlight.createNewUserHighlight(highlight)
 
     while (gameScreen.lastElementChild) {
@@ -561,6 +551,7 @@ function determineIfLoggedIn() {
     })
     .then(resp => resp.json())
     .then(function(json) {
+      debugger;
       showUserLoggedIn(json.data)
       document.querySelector("#highlight-buttons-div").classList.remove("hidden")
       showChooseMascotButton()
@@ -839,6 +830,7 @@ function removeNewUserForm() {
 }
 
 function showUserLoggedIn(userObject) {
+  debugger;
   const newDiv = document.createElement("div")
   newDiv.id = "current-user-info"
   newDiv.dataset.currentUser = userObject.id

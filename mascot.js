@@ -1,4 +1,4 @@
-class Mascot {
+export default class Mascot {
   constructor(mascot) {
     this.id = mascot["id"],
     this.name = mascot["name"]

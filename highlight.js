@@ -1,4 +1,4 @@
-class Highlight {
+export default class Highlight {
   constructor(highlight) {
     this.description = highlight["description"],
     this.id = highlight["id"],

@@ -1,4 +1,4 @@
-class UserHighlight {
+export default class UserHighlight {
   constructor(userHighlight) {
     this.userId = userHighlight["userId"],
     this.highlightId = userHighlight["highlightId"]

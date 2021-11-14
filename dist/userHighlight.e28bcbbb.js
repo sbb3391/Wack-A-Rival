@@ -118,6 +118,13 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"userHighlight.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -207,8 +214,10 @@ var UserHighlight = /*#__PURE__*/function () {
   return UserHighlight;
 }();
 
+exports.default = UserHighlight;
+
 _defineProperty(UserHighlight, "all", []);
-},{}],"../../../../../../../home/sbb3391/.nvm/versions/node/v15.1.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../../.nvm/versions/node/v15.1.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -236,7 +245,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33963" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44639" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -412,5 +421,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../home/sbb3391/.nvm/versions/node/v15.1.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","userHighlight.js"], null)
+},{}]},{},["../../../.nvm/versions/node/v15.1.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","userHighlight.js"], null)
 //# sourceMappingURL=/userHighlight.e28bcbbb.js.map

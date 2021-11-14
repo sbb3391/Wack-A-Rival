@@ -1,8 +1,9 @@
-// import Highlight from './highlight.js'
-// import HighlightComment from './highlightcomment.js'
-// import Mascot from './mascot.js'
-// import Team from './team.js'
-// import UserHighlight from './userHighlight.js'
+import Highlight from './highlight'
+import HighlightComment from './highlightcomment'
+import Mascot from './mascot'
+import Team from './team'
+import UserHighlight from './userHighlight'
+import "babel-polyfill"
 
 const mascotImages = document.querySelector("template#mascot-images").content.children;
 let previousMascotBottom, previousMascotLeft, previousMascotDiv
